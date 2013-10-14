@@ -20,17 +20,17 @@ public class TeseoEaterAgentProgram extends TeseoEaterAbstractAgentProgram {
     public String accion(boolean pf, boolean pd, boolean pa, boolean pi, boolean te, boolean co, boolean color, boolean forma, boolean tamano, boolean peso, boolean tipo, int energia) {
 
         if (!pd) {
-            return OurActions.GO_RIGHT_STRING;
+            return TeseoEaterActions.GO_RIGHT_STRING;
         }
         if (!pf) {
-            return OurActions.GO_FRONT_STRING;
+            return TeseoEaterActions.GO_FRONT_STRING;
         }
         if (!pi) {
-            return OurActions.GO_LEFT_STRING;
+            return TeseoEaterActions.GO_LEFT_STRING;
         }
         if (!pa) {
-            return OurActions.GO_BACK_STRING;
+            return TeseoEaterActions.GO_BACK_STRING;
         }
-        return OurActions.DO_NOTHING_STRING;
+        return TeseoEaterActions.DO_NOTHING_STRING;
     }
 }

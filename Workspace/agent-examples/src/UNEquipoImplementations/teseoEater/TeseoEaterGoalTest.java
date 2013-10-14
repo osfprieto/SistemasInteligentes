@@ -11,7 +11,7 @@ import unalcol.agents.search.State;
  *
  * @author osfprieto
  */
-public class OurGoalTest implements GoalTest{
+public class TeseoEaterGoalTest implements GoalTest{
 
     @Override
     public boolean test(State state) {

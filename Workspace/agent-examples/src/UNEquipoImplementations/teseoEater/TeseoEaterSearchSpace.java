@@ -13,7 +13,7 @@ import unalcol.types.collection.vector.Vector;
  *
  * @author osfprieto
  */
-public class OurSearchSpace implements SearchSpace{
+public class TeseoEaterSearchSpace implements SearchSpace{
 
     @Override
     public boolean feasible(State state) {
@@ -33,7 +33,7 @@ public class OurSearchSpace implements SearchSpace{
         
         RecorridoState newState = actualState.clone();
         
-        if(action.equals(OurActions.DO_NOTHING)){
+        if(action.equals(TeseoEaterActions.DO_NOTHING)){
         
         }
         
@@ -46,12 +46,12 @@ public class OurSearchSpace implements SearchSpace{
     public Vector<Action> succesor(State state) {
         Vector<Action> ret = new Vector<Action>();
         
-        ret.add(OurActions.EAT);
-        ret.add(OurActions.GO_RIGHT);
-        ret.add(OurActions.GO_FRONT);
-        ret.add(OurActions.GO_LEFT);
-        ret.add(OurActions.GO_BACK);
-        ret.add(OurActions.DO_NOTHING);
+        ret.add(TeseoEaterActions.EAT);
+        ret.add(TeseoEaterActions.GO_RIGHT);
+        ret.add(TeseoEaterActions.GO_FRONT);
+        ret.add(TeseoEaterActions.GO_LEFT);
+        ret.add(TeseoEaterActions.GO_BACK);
+        ret.add(TeseoEaterActions.DO_NOTHING);
         
         return ret;
     }

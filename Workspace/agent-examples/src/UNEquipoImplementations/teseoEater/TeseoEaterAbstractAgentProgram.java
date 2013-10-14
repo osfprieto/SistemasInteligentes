@@ -98,28 +98,28 @@ public abstract class TeseoEaterAbstractAgentProgram implements AgentProgram{
       
       String accion = accion(PF, PD, PA, PI, TRE, RES, COL, SHA, SIZ, WEI, TYP, EL);
       
-      if(accion.equals(OurActions.GO_BACK_STRING)){
+      if(accion.equals(TeseoEaterActions.GO_BACK_STRING)){
           cmd.add(rotateLanguage);
           cmd.add(rotateLanguage);
           cmd.add(advanceLanguage);
       }
-      else if(accion.equals(OurActions.GO_FRONT_STRING)){
+      else if(accion.equals(TeseoEaterActions.GO_FRONT_STRING)){
           cmd.add(advanceLanguage);
       } 
-      else if(accion.equals(OurActions.GO_LEFT_STRING)){
+      else if(accion.equals(TeseoEaterActions.GO_LEFT_STRING)){
           cmd.add(rotateLanguage);
           cmd.add(rotateLanguage);
           cmd.add(rotateLanguage);
           cmd.add(advanceLanguage);
       }
-      else if(accion.equals(OurActions.GO_RIGHT_STRING)){
+      else if(accion.equals(TeseoEaterActions.GO_RIGHT_STRING)){
           cmd.add(rotateLanguage);
           cmd.add(advanceLanguage);
       }
-      else if(accion.equals(OurActions.DO_NOTHING_STRING)){
+      else if(accion.equals(TeseoEaterActions.DO_NOTHING_STRING)){
           cmd.add(dieLanguage);
       }
-      else if(accion.equals(OurActions.EAT_STRING)){
+      else if(accion.equals(TeseoEaterActions.EAT_STRING)){
           cmd.add(eatLanguage);
       }
       

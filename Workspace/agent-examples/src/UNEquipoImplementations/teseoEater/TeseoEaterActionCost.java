@@ -12,7 +12,7 @@ import unalcol.agents.search.State;
  *
  * @author osfprieto
  */
-public class OurActionCost implements ActionCost{
+public class TeseoEaterActionCost implements ActionCost{
 
     //Para esta implementacion
     //No hacer nada y comer valen 0
@@ -21,8 +21,8 @@ public class OurActionCost implements ActionCost{
     
     @Override
     public double evaluate(State state, Action action) {
-        if(action.equals(OurActions.DO_NOTHING) 
-                || action.equals(OurActions.EAT))
+        if(action.equals(TeseoEaterActions.DO_NOTHING) 
+                || action.equals(TeseoEaterActions.EAT))
             return 0;
             
         return 1;

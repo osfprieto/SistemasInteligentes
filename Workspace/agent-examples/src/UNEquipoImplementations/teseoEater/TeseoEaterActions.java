@@ -10,7 +10,7 @@ import unalcol.agents.Action;
  *
  * @author osfprieto
  */
-public class OurActions {
+public class TeseoEaterActions {
     
     public static final String GO_RIGHT_STRING = "GO_RIGHT";
     public static final String GO_LEFT_STRING = "GO_LEFT";
