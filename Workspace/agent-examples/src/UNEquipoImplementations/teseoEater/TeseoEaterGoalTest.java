@@ -15,9 +15,9 @@ public class TeseoEaterGoalTest implements GoalTest{
 
     @Override
     public boolean test(State state) {
-        RecorridoState ourState = (RecorridoState) state;
-        Celda celdaActual = ourState.celdaActual;
-        return celdaActual.esSalida;
+        PathState ourState = (PathState) state;
+        Cell celdaActual = ourState.actualCell;
+        return celdaActual.hasTreasure;
     }
     
 }

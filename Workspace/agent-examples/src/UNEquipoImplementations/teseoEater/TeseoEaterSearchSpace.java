@@ -17,9 +17,9 @@ public class TeseoEaterSearchSpace implements SearchSpace{
 
     @Override
     public boolean feasible(State state) {
-        RecorridoState recorridoState = (RecorridoState)state;
+        PathState recorridoState = (PathState)state;
         
-        if(recorridoState.celdaActual.equals(Celda.WALL)
+        if(recorridoState.actualCell.equals(Cell.WALL)
                 || recorridoState.energyLevel<= 0)
             return false;
         
@@ -29,9 +29,9 @@ public class TeseoEaterSearchSpace implements SearchSpace{
 
     @Override
     public State succesor(State state, Action action) {
-        RecorridoState actualState = (RecorridoState) state;
+        PathState actualState = (PathState) state;
         
-        RecorridoState newState = actualState.clone();
+        PathState newState = actualState.clone();
         
         if(action.equals(TeseoEaterActions.DO_NOTHING)){
         
