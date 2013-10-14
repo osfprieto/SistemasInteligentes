@@ -39,8 +39,17 @@ public class RecorridoState implements State{
     public RecorridoState(){
         prevState = null;
         accionParaLlegarAEsteEstado = null;
+        
         Coordenada coordenada = new Coordenada(0, 0);
         celdaActual = new Celda(coordenada, null, null, null, null, null, false);
+        direccion = ORIENTE;
+        
+        energyLevel = 0;
+        
+        comidaBuena = new LinkedList<Celda>();
+        comidaMala = new LinkedList<Celda>();
+        
+        celdasPorCoordenadas = new HashMap<Coordenada, Celda>();
     }
     
     public boolean equal(State state) {
@@ -156,6 +165,22 @@ public class RecorridoState implements State{
         if(direccion == OCCIDENTE)
             return coordenada.coordenadaAlSur();
         return null;
+    }
+    
+    public RecorridoState clone(){
+        
+        RecorridoState ret = new RecorridoState();
+        ret.accionParaLlegarAEsteEstado = accionParaLlegarAEsteEstado;
+        ret.celdaActual = celdaActual;
+        ret.celdasPorCoordenadas = (HashMap<Coordenada, Celda>) celdasPorCoordenadas.clone();
+        ret.comidaBuena = (LinkedList<Celda>) comidaBuena.clone();
+        ret.comidaMala = (LinkedList<Celda>) comidaMala.clone();
+        ret.direccion = direccion;
+        ret.energyLevel = energyLevel;
+        ret.prevState = prevState;
+        
+        return ret;
+        
     }
     
 }

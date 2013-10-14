@@ -30,29 +30,30 @@ public class OurSearchSpace implements SearchSpace{
     @Override
     public State succesor(State state, Action action) {
         RecorridoState actualState = (RecorridoState) state;
-        if(action.equals(OurActions.DO_NOTHING))
-            return actualState;
         
-        if(action.equals(OurActions.))
-            return actualState;
-       
+        RecorridoState newState = actualState.clone();
         
+        if(action.equals(OurActions.DO_NOTHING)){
         
+        }
+        
+        //@TODO Terminar esto
+        
+        return newState;
     }
 
     @Override
     public Vector<Action> succesor(State state) {
         Vector<Action> ret = new Vector<Action>();
         
-        RecorridoState actualState = (RecorridoState)state;
-        
-        Celda celdaActual = actualState.celdaActual;
-        
-        if(actualState.comidaBuena.contains(celdaActual))
-        
+        ret.add(OurActions.EAT);
+        ret.add(OurActions.GO_RIGHT);
+        ret.add(OurActions.GO_FRONT);
+        ret.add(OurActions.GO_LEFT);
+        ret.add(OurActions.GO_BACK);
         ret.add(OurActions.DO_NOTHING);
-        if()
         
+        return ret;
     }
     
 }
