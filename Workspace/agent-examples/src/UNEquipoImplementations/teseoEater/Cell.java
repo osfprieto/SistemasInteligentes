@@ -25,7 +25,7 @@ public class Cell {
     public Food food;//En caso de que haya food
 
     public Cell(Coordinate coordenada, Cell celdaAlNorte, Cell celdaAlSur,
-            Cell celdaAlOriente, Cell celdaAlOccidente, Food comida, boolean esSalida) {
+            Cell celdaAlOriente, Cell celdaAlOccidente, Food comida, boolean hasTreasure) {
         this.timesVisited = 1;
         this.coordinate = coordenada;
         this.northCell = celdaAlNorte;
@@ -34,7 +34,7 @@ public class Cell {
         this.westCell = celdaAlOccidente;
         this.food = comida;
         this.blockedRoad = false;
-        this.hasTreasure = esSalida;
+        this.hasTreasure = hasTreasure;
     }
     
     public boolean equals(Cell other){
