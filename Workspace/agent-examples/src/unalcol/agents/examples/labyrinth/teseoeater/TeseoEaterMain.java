@@ -9,7 +9,9 @@ public class TeseoEaterMain {
   private static SimpleLanguage getLanguage(){
     return new TeseoEaterLanguage(
       new String[]{"front", "right", "back", "left", "treasure",
-                   "resource", "resource-color", "resource-shape", "resource-size", "resource-weight", "resource-type", "energy_level" },
+                   "resource", "resource-color", "resource-shape",
+                   "resource-size", "resource-weight", "resource-type", 
+                   "energy_level" },
       new String[]{"no_op", "die", "advance", "rotate", "eat"}
       );
   }
