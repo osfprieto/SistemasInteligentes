@@ -9,11 +9,10 @@ package UNEquipoImplementations.teseoEater;
  * @author Fredy
  */
 public class Cell {
-    
+
     public static final Cell WALL = new Cell(
             new Coordinate(Integer.MAX_VALUE, Integer.MAX_VALUE),
             null, null, null, null, null, false);
-    
     public Coordinate coordinate;
     public int timesVisited;
     public Cell northCell;
@@ -36,19 +35,23 @@ public class Cell {
         this.blockedRoad = false;
         this.hasTreasure = hasTreasure;
     }
-    
-    public boolean equals(Cell other){
+
+    public boolean equals(Cell other) {
         boolean ret;
         ret = coordinate.equals(other.coordinate);
-        ret = ret && timesVisited==other.timesVisited;
+        ret = ret && timesVisited == other.timesVisited;
         ret = ret && northCell.equals(other.northCell);
         ret = ret && southCell.equals(other.southCell);
         ret = ret && eastCell.equals(other.eastCell);
         ret = ret && westCell.equals(other.westCell);
         ret = ret && blockedRoad == other.blockedRoad;
         ret = ret && food.equals(other.food);
-        
+
         return ret;
     }
-    
+
+    @Override
+    public String toString() {
+        return "[" + coordinate + ":" + timesVisited + "," + blockedRoad + "]";
+    }
 }
