@@ -25,7 +25,7 @@ public class Food {
             this.type = tipo;
         }
 
-        public boolean equals(Food otro) {
+        public boolean equalsC(Food otro) {
             if (this.color == otro.color
                     && this.shape == otro.shape
                     && this.weight == otro.weight
@@ -33,5 +33,10 @@ public class Food {
                     && this.type == otro.type)
                 return true;
             return false;
+        }
+        
+        @Override
+        public String toString(){
+            return "["+color +","+shape+","+size+","+weight+","+type+"]";
         }
     }

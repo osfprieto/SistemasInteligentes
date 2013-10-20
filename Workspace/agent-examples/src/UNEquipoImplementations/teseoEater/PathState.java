@@ -5,7 +5,7 @@
 package UNEquipoImplementations.teseoEater;
 
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import unalcol.agents.Action;
 import unalcol.agents.search.State;
 
@@ -26,9 +26,9 @@ public class PathState implements State {
     public Cell actualCell;
     public int direction;
     public int energyLevel;
-    public LinkedList<Food> goodFoodList;
-    public LinkedList<Food> badFoodList;
-    public HashMap<Coordinate, Cell> cellsByCoordinates;
+    public ArrayList<Food> goodFoodList;
+    public ArrayList<Food> badFoodList;
+    public HashMap<String, Cell> cellsByCoordinates;
 
     public PathState() {
         prevState = null;
@@ -37,10 +37,10 @@ public class PathState implements State {
         actualCell = new Cell(coordenada, null, null, null, null, null, false);
         direction = EAST;
         energyLevel = 0;
-        goodFoodList = new LinkedList<>();
-        badFoodList = new LinkedList<>();
+        goodFoodList = new ArrayList<>();
+        badFoodList = new ArrayList<>();
         cellsByCoordinates = new HashMap<>();
-        cellsByCoordinates.put(coordenada, actualCell);
+        cellsByCoordinates.put(coordenada.toString(), actualCell);
     }
 
     /**
@@ -236,9 +236,9 @@ public class PathState implements State {
         PathState ret = new PathState();
         ret.actionToReachThisState = this.actionToReachThisState;
         ret.actualCell = this.actualCell;
-        ret.cellsByCoordinates = (HashMap<Coordinate, Cell>) this.cellsByCoordinates.clone();
-        ret.goodFoodList = (LinkedList<Food>) this.goodFoodList.clone();
-        ret.badFoodList = (LinkedList<Food>) this.badFoodList.clone();
+        ret.cellsByCoordinates = (HashMap<String, Cell>) this.cellsByCoordinates.clone();
+        ret.goodFoodList = (ArrayList<Food>) this.goodFoodList.clone();
+        ret.badFoodList = (ArrayList<Food>) this.badFoodList.clone();
         ret.direction = this.direction;
         ret.energyLevel = this.energyLevel;
         ret.prevState = this.prevState;
@@ -258,9 +258,9 @@ public class PathState implements State {
         Cell newCell;
         newCell = new Cell(null, null, null, null, null, null, false);
         if (action.equals(TeseoEaterActions.GO_FRONT_STRING)) {
-            System.out.println(">> "+actualCell.coordinate + " " + direction);
-            if (cellsByCoordinates.containsKey(getFrontCoordinate())) {
-                newCell = cellsByCoordinates.get(getFrontCoordinate());
+            if (cellsByCoordinates.containsKey(getFrontCoordinate().toString())) {
+                newCell = cellsByCoordinates.get(getFrontCoordinate().toString());
+                newCell.timesVisited +=1;
             } else {
                 newCell.coordinate = getFrontCoordinate();
             }
@@ -282,10 +282,9 @@ public class PathState implements State {
                     this.actualCell.westCell = newCell;
                     break;
             }
-            System.out.println(">>"+newCell.coordinate+ " " + direction);
         } else if (action.equals(TeseoEaterActions.GO_BACK_STRING)) {
-            System.out.println(">> "+actualCell.coordinate + " " + direction);
-            newCell = cellsByCoordinates.get(getBackCoordinate());
+            newCell = this.prevState.actualCell;
+            newCell.timesVisited +=1;
             switch (direction) {
                 case NORTH:
                     direction = SOUTH;
@@ -300,11 +299,10 @@ public class PathState implements State {
                     direction = EAST;
                     break;
             }
-            System.out.println(">>"+newCell.coordinate+ " " + direction);
         } else if (action.equals(TeseoEaterActions.GO_RIGHT_STRING)) {
-            System.out.println(">> "+actualCell.coordinate + " " + direction);
-            if (cellsByCoordinates.containsKey(getRightCoordinate())) {
-                newCell = cellsByCoordinates.get(getRightCoordinate());
+            if (cellsByCoordinates.containsKey(getRightCoordinate().toString())) {
+                newCell = cellsByCoordinates.get(getRightCoordinate().toString());
+                newCell.timesVisited +=1;
             } else {
                 newCell.coordinate = getRightCoordinate();
             }
@@ -330,11 +328,10 @@ public class PathState implements State {
                     this.actualCell.northCell = newCell;
                     break;
             }
-            System.out.println(">>"+newCell.coordinate+ " " + direction);
         } else if (action.equals(TeseoEaterActions.GO_LEFT_STRING)) {
-            System.out.println(">> "+actualCell.coordinate + " " + direction);
-            if (cellsByCoordinates.containsKey(getLeftCoordinate())) {
-                newCell = cellsByCoordinates.get(getLeftCoordinate());
+            if (cellsByCoordinates.containsKey(getLeftCoordinate().toString())) {
+                newCell = cellsByCoordinates.get(getLeftCoordinate().toString());
+                newCell.timesVisited +=1;
             } else {
                 newCell.coordinate = getLeftCoordinate();
             }
@@ -360,11 +357,11 @@ public class PathState implements State {
                     this.actualCell.southCell = newCell;
                     break;
             }
-            System.out.println(">>"+newCell.coordinate+ " " + direction);
         }
-        newPathState.cellsByCoordinates.put(newCell.coordinate, newCell);
-        System.out.println(action+" "+newCell.coordinate+" "+direction);
+        newPathState.cellsByCoordinates.put(newCell.coordinate.toString(), newCell);
+//        System.out.println(action + " " + newCell.coordinate + " " + direction);
         newPathState.actualCell = newCell;
+        newPathState.direction = direction;
         return newPathState;
     }
 }

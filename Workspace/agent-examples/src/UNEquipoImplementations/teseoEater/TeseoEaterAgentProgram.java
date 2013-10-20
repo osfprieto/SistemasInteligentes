@@ -25,21 +25,37 @@ public class TeseoEaterAgentProgram extends TeseoEaterAbstractAgentProgram {
         if (te) {
             return TeseoEaterActions.DIE_STRING;
         }
-        Food food = null;
+        pathState.energyLevel = energia;
+        Food food;
         if (pathState.prevState != null) {
             if (pathState.energyLevel - pathState.prevState.energyLevel < -1) {
                 int size = pathState.goodFoodList.size();
                 food = pathState.goodFoodList.remove(size - 1);
                 pathState.badFoodList.add(food);
-                food = null;
+                System.out.println(food + " " + pathState.badFoodList);
             }
         }
         if (co) {
             food = new Food(color, forma, tamano, peso, tipo);
             if (energia < PathState.MAX_ENERGY_LEVEL) {
-                if (!pathState.badFoodList.contains(food)) {
+                boolean isABadFood = false;
+                for (Food f : pathState.badFoodList) {
+                    if (f.equalsC(food)) {
+                        isABadFood = true;
+                    }
+                }
+                if (!isABadFood) {
                     action = TeseoEaterActions.EAT_STRING;
-                    pathState.goodFoodList.add(food);
+                    boolean isAGoodFood = false;
+                    for (Food f : pathState.goodFoodList) {
+                        if (f.equalsC(food)) {
+                            isAGoodFood = true;
+                        }
+                    }
+                    if (!isAGoodFood) {
+                        pathState.goodFoodList.add(food);
+                        System.out.println("new food found");
+                    }                    
                 }
             }
             pathState.actualCell.food = food;
@@ -55,7 +71,7 @@ public class TeseoEaterAgentProgram extends TeseoEaterAbstractAgentProgram {
                 action = TeseoEaterActions.GO_BACK_STRING;
             }
             pathState = pathState.createNew(action);
-        }        
+        }
         return action;
     }
 }

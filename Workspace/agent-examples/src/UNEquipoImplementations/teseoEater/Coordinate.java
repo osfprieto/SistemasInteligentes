@@ -47,11 +47,11 @@ public class Coordinate implements Comparable {
 
     @Override
     public int compareTo(Object t) {
-        return compareTo((Cell) t);
+        return compareTo((Coordinate) t);
     }
 
     public boolean equals(Coordinate other) {
-        return compareTo(other) == 0;
+        return other.x == x && other.y == y;
     }
 
     @Override
