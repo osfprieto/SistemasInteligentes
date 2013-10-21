@@ -40,7 +40,7 @@ public class TeseoEaterAgentProgram extends TeseoEaterAbstractAgentProgram {
             if (energia < PathState.MAX_ENERGY_LEVEL) {
                 boolean isABadFood = false;
                 for (Food f : pathState.badFoodList) {
-                    if (f.equalsC(food)) {
+                    if (f.equals(food)) {
                         isABadFood = true;
                     }
                 }
@@ -48,7 +48,7 @@ public class TeseoEaterAgentProgram extends TeseoEaterAbstractAgentProgram {
                     action = TeseoEaterActions.EAT_STRING;
                     boolean isAGoodFood = false;
                     for (Food f : pathState.goodFoodList) {
-                        if (f.equalsC(food)) {
+                        if (f.equals(food)) {
                             isAGoodFood = true;
                         }
                     }

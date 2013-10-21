@@ -25,7 +25,7 @@ public class Food {
             this.type = tipo;
         }
 
-        public boolean equalsC(Food otro) {
+        public boolean equals(Food otro) {
             if (this.color == otro.color
                     && this.shape == otro.shape
                     && this.weight == otro.weight
