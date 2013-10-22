@@ -4,11 +4,11 @@
  */
 package UNEquipoImplementations.teseoEater;
 
-import java.util.Vector;
 import unalcol.agents.Action;
 import unalcol.agents.AgentProgram;
 import unalcol.agents.Percept;
 import unalcol.agents.simulate.util.SimpleLanguage;
+import unalcol.types.collection.vector.Vector;
 
 /**
  *
@@ -26,6 +26,8 @@ public abstract class TeseoEaterAbstractAgentProgram implements AgentProgram{
   protected String advanceLanguage;
   protected String rotateLanguage;
   protected String eatLanguage;
+  
+  
   
   public TeseoEaterAbstractAgentProgram(SimpleLanguage language) {
       setLanguage(language);      
@@ -122,7 +124,6 @@ public abstract class TeseoEaterAbstractAgentProgram implements AgentProgram{
       else if(accion.equals(TeseoEaterActions.EAT_STRING)){
           cmd.add(eatLanguage);
       }
-      
     }
     String x = cmd.get(0);
     cmd.remove(0);

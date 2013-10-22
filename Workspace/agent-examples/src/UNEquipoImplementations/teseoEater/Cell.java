@@ -25,7 +25,7 @@ public class Cell {
 
     public Cell(Coordinate coordenada, Cell celdaAlNorte, Cell celdaAlSur,
             Cell celdaAlOriente, Cell celdaAlOccidente, Food comida, boolean hasTreasure) {
-        this.timesVisited = 1;
+        this.timesVisited = 0;
         this.coordinate = coordenada;
         this.northCell = celdaAlNorte;
         this.southCell = celdaAlSur;
