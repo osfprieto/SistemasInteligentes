@@ -16,11 +16,11 @@ public class Food {
         public boolean weight;
         public boolean type;
 
-        public Food(boolean color, boolean forma, boolean tamaño, boolean peso, boolean tipo) {
+        public Food(boolean color, boolean forma, boolean tamano, boolean peso, boolean tipo) {
 
             this.color = color;
             this.shape = forma;
-            this.size = tamaño;
+            this.size = tamano;
             this.weight = peso;
             this.type = tipo;
         }

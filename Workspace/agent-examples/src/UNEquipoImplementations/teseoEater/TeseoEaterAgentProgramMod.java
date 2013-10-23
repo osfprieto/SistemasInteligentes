@@ -23,16 +23,18 @@ public class TeseoEaterAgentProgramMod implements AgentProgram {
     public static final String START_SET_COST_PER_MOVE = "START_SET_COST_PER_MOVE";
     public static final String START_SET_COST_PER_TURN = "START_SET_COST_PER_TURN";
     public static final String START_SET_MAX_ENERGY = "START_SET_MAX_ENERGY";
+    public static final String START_CHECK_FOOD = "START_CHECK_FOOD";
     
     public static final String SET_COST_PER_MOVE = "SET_COST_PER_MOVE";
     public static final String SET_COST_PER_TURN = "SET_COST_PER_TURN";
     public static final String SET_MAX_ENERGY = "SET_MAX_ENERGY";
+    public static final String CHECK_FOOD = "CHECK_FOOD";
     
     int prevEnergyLevel;
 
     public static final int NORTH = 0;
-    public static final int SOUTH = 1;
-    public static final int EAST = 2;
+    public static final int EAST = 1;
+    public static final int SOUTH = 2;
     public static final int WEST = 3;
     
     
@@ -55,6 +57,7 @@ public class TeseoEaterAgentProgramMod implements AgentProgram {
     boolean isCostPerMoveSet;
     boolean isCostPerTurnSet;
     
+    boolean explorationModeEnabled;
     
     HashMap<String, Cell> cellsByCoordinates;
 
@@ -73,11 +76,18 @@ public class TeseoEaterAgentProgramMod implements AgentProgram {
         isCostPerMoveSet = false;
         isCostPerTurnSet = false;
         isMaxEnergySet = false;
-        //riskMode = true;
+        explorationModeEnabled = true;
         direction = NORTH;
         
         Coordinate origin = new Coordinate(0, 0);
         actualCell = new Cell(origin, null, null, null, null, null, false);
+        actualCell.timesVisited = 1;
+        goodFoodCells = new LinkedList<Cell>();
+        badFoodCells = new LinkedList<Cell>();
+        goodFoodType = new LinkedList<Food>();
+        badFoodType = new LinkedList<Food>();
+        cellsByCoordinates = new HashMap<String, Cell>();
+        cellsByCoordinates.put(actualCell.coordinate.toString(), actualCell);
     }
     
     public void setLanguage(  SimpleLanguage _language ){
@@ -129,7 +139,11 @@ public class TeseoEaterAgentProgramMod implements AgentProgram {
       String accion = accion(PF, PD, PA, PI, TRE, RES, COL, SHA, SIZ, WEI, TYP, EL);
       
       
-      if(accion.equals(START_SET_COST_PER_MOVE)){
+      if(accion.equals(START_CHECK_FOOD)){
+          cmd.add(0, CHECK_FOOD);
+          cmd.add(0, eatLanguage);
+      }
+      else if(accion.equals(START_SET_COST_PER_MOVE)){
           if(!getFrontCell().equals(Cell.WALL)){
               cmd.add(0, SET_COST_PER_MOVE);
               cmd.add(0, advanceLanguage);
@@ -160,6 +174,16 @@ public class TeseoEaterAgentProgramMod implements AgentProgram {
       else if(accion.equals(START_SET_MAX_ENERGY)){
           cmd.add(0, SET_MAX_ENERGY);
           cmd.add(0, eatLanguage);
+      }
+      else if(accion.equals(CHECK_FOOD)){
+          if(energyLevel<prevEnergyLevel){//badFood
+              badFoodCells.add(actualCell);
+              badFoodType.add(actualCell.food);
+          }
+          else{
+              goodFoodCells.add(actualCell);
+              goodFoodType.add(actualCell.food);
+          }
       }
       else if(accion.equals(SET_COST_PER_MOVE)){
           energyDeltaPerMove = energyLevel-prevEnergyLevel;
@@ -207,12 +231,22 @@ public class TeseoEaterAgentProgramMod implements AgentProgram {
       
     String x = cmd.get(0);
     cmd.remove(0);
+    
+    if(x.equals(advanceLanguage)){
+        actualCell = getFrontCell();
+        actualCell.timesVisited++;
+    }
+    else if(x.equals(rotateLanguage)){
+        direction++;
+        direction%=4;
+    }
+    
     return new Action(x);
   }
       
     public String accion(boolean pf,
-                        boolean pd,
-                        boolean pa,
+                        boolean pd,//derecha
+                        boolean pa,//atrás
                         boolean pi,
                         boolean te,//Tesoro
                         boolean co,//Comida
@@ -223,19 +257,185 @@ public class TeseoEaterAgentProgramMod implements AgentProgram {
                         boolean tipo,
                         int energia) {
         
-        prevEnergyLevel = energyLevel;
-        energyLevel = energia;
-        
         if(te){
             return TeseoEaterActions.DO_NOTHING_STRING;
         }
         
+        //Registro de percepciones
+        
+        prevEnergyLevel = energyLevel;
+        energyLevel = energia;
+        
+        if(pf){
+            setFrontCell(Cell.WALL);
+        }
+        else{
+            Cell adyacentCell =
+                    cellsByCoordinates.get(getFrontCoordinate().toString());
+            if(adyacentCell!=null){
+                setFrontCell(adyacentCell);
+                if(direction == NORTH){
+                    adyacentCell.southCell = actualCell;
+                }
+                else if(direction == EAST){
+                    adyacentCell.westCell = actualCell;
+                }
+                else if(direction == SOUTH){
+                    adyacentCell.northCell = actualCell;
+                }
+                else if(direction == WEST){
+                    adyacentCell.eastCell = actualCell;
+                }
+            }
+            else{
+                Coordinate adyacentCoordinate = getFrontCoordinate();
+                Cell newCell = new Cell(adyacentCoordinate,
+                        direction==SOUTH?actualCell:null,
+                        direction==NORTH?actualCell:null,
+                        direction==WEST?actualCell:null,
+                        direction==EAST?actualCell:null,
+                        null,
+                        false);
+                setFrontCell(newCell);
+                cellsByCoordinates.put(newCell.coordinate.toString(), newCell);
+            }
+        }
+        
+        if(pd){
+            setRightCell(Cell.WALL);
+        }
+        else{
+            Cell adyacentCell =
+                    cellsByCoordinates.get(getRightCoordinate().toString());
+            if(adyacentCell!=null){
+                setRightCell(adyacentCell);
+                if(direction == NORTH){
+                    adyacentCell.westCell = actualCell;
+                }
+                else if(direction == EAST){
+                    adyacentCell.northCell = actualCell;
+                }
+                else if(direction == SOUTH){
+                    adyacentCell.eastCell = actualCell;
+                }
+                else if(direction == WEST){
+                    adyacentCell.southCell = actualCell;
+                }
+            }
+            else{
+                Coordinate adyacentCoordinate = getRightCoordinate();
+                Cell newCell = new Cell(adyacentCoordinate,
+                        direction==EAST?actualCell:null,
+                        direction==WEST?actualCell:null,
+                        direction==SOUTH?actualCell:null,
+                        direction==NORTH?actualCell:null,
+                        null,
+                        false);
+                setRightCell(newCell);
+                cellsByCoordinates.put(newCell.coordinate.toString(), newCell);
+            }
+        }
+        
+        if(pa){
+            setBackCell(Cell.WALL);
+        }
+        else{
+            Cell adyacentCell =
+                    cellsByCoordinates.get(getBackCoordinate().toString());
+            if(adyacentCell!=null){
+                setBackCell(adyacentCell);
+                if(direction == NORTH){
+                    adyacentCell.northCell = actualCell;
+                }
+                else if(direction == EAST){
+                    adyacentCell.eastCell = actualCell;
+                }
+                else if(direction == SOUTH){
+                    adyacentCell.southCell = actualCell;
+                }
+                else if(direction == WEST){
+                    adyacentCell.westCell = actualCell;
+                }
+            }
+            else{
+                Coordinate adyacentCoordinate = getBackCoordinate();
+                Cell newCell = new Cell(adyacentCoordinate,
+                        direction==NORTH?actualCell:null,
+                        direction==SOUTH?actualCell:null,
+                        direction==EAST?actualCell:null,
+                        direction==WEST?actualCell:null,
+                        null,
+                        false);
+                setBackCell(newCell);
+                cellsByCoordinates.put(newCell.coordinate.toString(), newCell);
+            }
+        }
+        
+        if(pi){
+            setLeftCell(Cell.WALL);
+        }
+        else{
+            Cell adyacentCell =
+                    cellsByCoordinates.get(getLeftCoordinate().toString());
+            if(adyacentCell!=null){
+                setLeftCell(adyacentCell);
+                if(direction == NORTH){
+                    adyacentCell.eastCell = actualCell;
+                }
+                else if(direction == EAST){
+                    adyacentCell.southCell = actualCell;
+                }
+                else if(direction == SOUTH){
+                    adyacentCell.westCell = actualCell;
+                }
+                else if(direction == WEST){
+                    adyacentCell.northCell = actualCell;
+                }
+            }
+            else{
+                Coordinate adyacentCoordinate = getLeftCoordinate();
+                Cell newCell = new Cell(adyacentCoordinate,
+                        direction==WEST?actualCell:null,
+                        direction==EAST?actualCell:null,
+                        direction==NORTH?actualCell:null,
+                        direction==SOUTH?actualCell:null,
+                        null,
+                        false);
+                setLeftCell(newCell);
+                cellsByCoordinates.put(newCell.coordinate.toString(), newCell);
+            }
+        }
+        
+        boolean mustCheckNewFood = false;
+        if(co){
+            Food food = new Food(color, forma, tamano, peso, tipo);
+            actualCell.food = food;
+            if(isRegisteredGoodFood(food)){
+                goodFoodCells.add(actualCell);
+            }
+            else if(isRegisterdBadFood(food)){
+                badFoodCells.add(actualCell);
+            }
+            else{
+                mustCheckNewFood = true;
+            }
+        }
+        
+        //////////////////////
+        
+        
+        
         String command = cmd.get(0);
         if(command.equals(SET_COST_PER_MOVE)
                 || command.equals(SET_COST_PER_TURN)
-                || command.equals(SET_MAX_ENERGY)){
+                || command.equals(SET_MAX_ENERGY)
+                || command.equals(CHECK_FOOD)){
             cmd.remove(0);
             return command;
+        }
+        
+        if(mustCheckNewFood){
+            return START_CHECK_FOOD;
         }
         
         if(!isCostPerTurnSet){
@@ -254,7 +454,15 @@ public class TeseoEaterAgentProgramMod implements AgentProgram {
         }
         
         //@TODO Terminar el proceso de decisión
-        /////////////////////////////////////////
+        ///////////////////////////////////////
+        
+        
+        if(explorationModeEnabled){//Explorando, busca cosas nuevas
+            
+        }
+        else{//Si está sin explorar y se mueve a donde conoce
+            
+        }
         
         
         return TeseoEaterActions.DIE_STRING;
@@ -649,6 +857,67 @@ public class TeseoEaterAgentProgramMod implements AgentProgram {
         return null;
     }
 
+    
+    public void setFrontCell(Cell cell){
+        if(direction == NORTH){
+            actualCell.northCell = cell;
+        }
+        else if(direction == EAST){
+            actualCell.eastCell = cell;
+        }
+        else if(direction == SOUTH){
+            actualCell.southCell = cell;
+        }
+        else if(direction == WEST){
+            actualCell.westCell = cell;
+        }
+    }
+    
+    public void setRightCell(Cell cell){
+        if(direction == NORTH){
+            actualCell.eastCell = cell;
+        }
+        else if(direction == EAST){
+            actualCell.southCell = cell;
+        }
+        else if(direction == SOUTH){
+            actualCell.westCell = cell;
+        }
+        else if(direction == WEST){
+            actualCell.northCell = cell;
+        }
+    }
+    
+    public void setBackCell(Cell cell){
+        if(direction == NORTH){
+            actualCell.southCell = cell;
+        }
+        else if(direction == EAST){
+            actualCell.westCell = cell;
+        }
+        else if(direction == SOUTH){
+            actualCell.northCell = cell;
+        }
+        else if(direction == WEST){
+            actualCell.eastCell = cell;
+        }
+    }
+    
+    public void setLeftCell(Cell cell){
+        if(direction == NORTH){
+            actualCell.westCell = cell;
+        }
+        else if(direction == EAST){
+            actualCell.northCell = cell;
+        }
+        else if(direction == SOUTH){
+            actualCell.eastCell = cell;
+        }
+        else if(direction == WEST){
+            actualCell.southCell = cell;
+        }
+    }
+    
     public Coordinate getFrontCoordinate() {
         Coordinate coordenada = actualCell.coordinate;
         if (direction == NORTH) {
