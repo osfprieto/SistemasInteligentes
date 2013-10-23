@@ -37,15 +37,31 @@ public class Cell {
     }
 
     public boolean equals(Cell other) {
+        
+        if(other == null){
+            return false;
+        }
+        
         boolean ret;
         ret = coordinate.equals(other.coordinate);
         ret = ret && timesVisited == other.timesVisited;
-        ret = ret && northCell.equals(other.northCell);
-        ret = ret && southCell.equals(other.southCell);
-        ret = ret && eastCell.equals(other.eastCell);
-        ret = ret && westCell.equals(other.westCell);
+        
+        ret = ret && northCell == other.northCell;
+        ret = ret && southCell == other.southCell;
+        ret = ret && eastCell == other.eastCell;
+        ret = ret && westCell == other.westCell;
+        
         ret = ret && blockedRoad == other.blockedRoad;
-        ret = ret && food.equals(other.food);
+        
+        if(food!=null){
+            ret = ret && food.equals(other.food);
+        }
+        else if(other.food!=null){
+            return false;
+        }
+        else{
+            //ret = ret && true;//both food are null
+        }
 
         return ret;
     }

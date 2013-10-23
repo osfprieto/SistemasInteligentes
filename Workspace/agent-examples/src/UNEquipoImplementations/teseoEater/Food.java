@@ -26,11 +26,13 @@ public class Food {
         }
 
         public boolean equals(Food otro) {
-            if (this.color == otro.color
-                    && this.shape == otro.shape
-                    && this.weight == otro.weight
-                    && this.size == otro.size
-                    && this.type == otro.type)
+            if(otro==null)
+                return false;
+            if (color == otro.color
+                    && shape == otro.shape
+                    && weight == otro.weight
+                    && size == otro.size
+                    && type == otro.type)
                 return true;
             return false;
         }
