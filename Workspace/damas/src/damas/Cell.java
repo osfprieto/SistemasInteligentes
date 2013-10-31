@@ -32,6 +32,7 @@ public class Cell extends JPanel{
         if(option){
             add(new JLabel(QUEEN_IMAGE));
         }
+        updateUI();
     }
     
 }
