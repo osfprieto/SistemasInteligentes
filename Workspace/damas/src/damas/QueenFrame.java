@@ -10,11 +10,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class QueenFrame extends JFrame{
-
-    public static final int FRAME_WIDTH = 400;
-    public static final int FRAME_HEIGTH = 400;
     
-    public static int n = 8;
+    public static final int FACTOR = 40;
+    
+    public static int n = 10;
     
     private Container cont;
    
@@ -32,7 +31,7 @@ public class QueenFrame extends JFrame{
         
         initBoard();
         
-        QueenSetter.putQueens(board);
+        QueenSetterMod.putQueens(board);
     }
     
     public void initBoard(){
@@ -55,7 +54,7 @@ public class QueenFrame extends JFrame{
         cont.add(panelBoard);
         
         setVisible(true);
-        setBounds(100, 100, FRAME_WIDTH, FRAME_HEIGTH);
+        setBounds(100, 100, n*FACTOR, n*FACTOR);
     }
     
 }
