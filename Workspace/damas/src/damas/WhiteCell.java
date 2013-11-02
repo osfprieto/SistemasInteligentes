@@ -13,7 +13,7 @@ import java.awt.Color;
 public class WhiteCell extends Cell{
     
     
-    public WhiteCell(){
-        super(Color.WHITE);
+    public WhiteCell(int i, int j){
+        super(Color.WHITE, i, j);
     }
 }

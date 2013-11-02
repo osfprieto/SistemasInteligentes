@@ -13,7 +13,7 @@ import java.awt.Color;
 public class BlackCell extends Cell{
     
     
-    public BlackCell(){
-        super(Color.BLACK);
+    public BlackCell(int i, int j){
+        super(Color.BLACK, i, j);
     }
 }

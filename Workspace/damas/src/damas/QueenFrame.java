@@ -11,6 +11,9 @@ import javax.swing.JPanel;
 
 public class QueenFrame extends JFrame{
 
+    public static final int FRAME_WIDTH = 400;
+    public static final int FRAME_HEIGTH = 400;
+    
     public static int n = 8;
     
     private Container cont;
@@ -43,15 +46,16 @@ public class QueenFrame extends JFrame{
         
         for(int i=0;i<n;i++)
             for(int j=0;j<n;j++){
-                board[i][j] = ((i+j)%2==1)?(new BlackCell()):(new WhiteCell());
+                board[i][j] = ((i+j)%2==1)?
+                        (new BlackCell(i, j)):(new WhiteCell(i, j));
+                //board[y][x].setSize(FRAME_WIDTH/n, FRAME_HEIGTH/n);
                 panelBoard.add(board[i][j]);
             }
         
         cont.add(panelBoard);
         
         setVisible(true);
-        setBounds(100, 100, 400, 400);
-        
+        setBounds(100, 100, FRAME_WIDTH, FRAME_HEIGTH);
     }
     
 }

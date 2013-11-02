@@ -13,16 +13,23 @@ import javax.swing.JPanel;
  *
  * @author Estudiante
  */
-public class Cell extends JPanel{
+public class Cell extends JLabel{
     
     public static final ImageIcon QUEEN_IMAGE
             = new ImageIcon("queenimage.png");
+    public static final ImageIcon BLANK_IMAGE
+            = new ImageIcon("blank.png");
     
     private Color color;
     private boolean hasQueen;
+    private int i;
+    private int j;
     
-    public Cell(Color color){
+    public Cell(Color color, int i, int j){
         this.color = color;
+        this.i = i;
+        this.j = j;
+        setOpaque(true);
         setBackground(color);
     }
     
@@ -30,9 +37,28 @@ public class Cell extends JPanel{
         removeAll();
         hasQueen = option;
         if(option){
-            add(new JLabel(QUEEN_IMAGE));
+            setIcon(QUEEN_IMAGE);
+        }
+        else{
+            setIcon(BLANK_IMAGE);
         }
         updateUI();
+    }
+ 
+    public boolean hasQueen(){
+        return hasQueen;
+    }
+    
+    public int getI(){
+        return i;
+    }
+    
+    public int getJ(){
+        return j;
+    }
+    
+    public String toString(){
+        return "("+i+", "+j+")";
     }
     
 }
