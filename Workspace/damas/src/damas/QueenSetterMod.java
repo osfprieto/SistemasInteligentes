@@ -2,6 +2,8 @@ package damas;
 
 //http://en.wikibooks.org/wiki/Algorithm_Implementation/Miscellaneous/N-Queens
 
+
+//BackTracking
 public class QueenSetterMod {
 
     private static Cell board[][];

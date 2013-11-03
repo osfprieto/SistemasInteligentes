@@ -11,6 +11,8 @@ import java.util.Random;
  *
  * @author osfprieto
  */
+
+//HillClimbing
 public class QueenSetter {
     
     public static int n;
@@ -135,6 +137,8 @@ public class QueenSetter {
                 j++;
             cols[j] = i-1;
         }
+        
+        //Las índices aleatorios de las filas y columnas están en rows y cols
         
         for(int i=0;i<n;i++){
             board[rows[i]][cols[i]].setHasQueen(true);
