@@ -25,14 +25,17 @@ public class NQueensProblemSolverWithBacktracking {
             System.out.println("Solving " + queens + " queens problem...");
             this.nextStates = new ArrayList<>();
             this.numberOfQueens = queens;
+            long startTime = System.currentTimeMillis();
             solve();
+            System.out.println("Time: "+(System.currentTimeMillis()-startTime));
             showSolution();
         }
     }
 
     private void solve() {
 
-        NQueensProblemState root = new NQueensProblemState(new NQueensProblemPosibleSolution(numberOfQueens));
+        NQueensProblemState root = new NQueensProblemState(
+                new NQueensProblemPosibleSolution(numberOfQueens));
         nextStates.add(root);
         while (nextStates.size() > 0 && solution == null) {
             if (computePosibleSolution()) {
@@ -47,9 +50,11 @@ public class NQueensProblemSolverWithBacktracking {
         if (actualState.posibleSolution.isSolution()) {
             solution = actualState.posibleSolution;
         } else {
-            ArrayList<NQueensProblemPosibleSolution> successors = actualState.posibleSolution.successorsListForBackTracking();
+            ArrayList<NQueensProblemPosibleSolution> successors =
+                    actualState.posibleSolution.successorsListForBackTracking();
             for (int i = 0; i < successors.size(); i++) {
-                NQueensProblemState newState = new NQueensProblemState(actualState, successors.get(i));
+                NQueensProblemState newState =
+                        new NQueensProblemState(actualState, successors.get(i));
                 nextStates.add(i, newState);
             }
         }
@@ -60,7 +65,8 @@ public class NQueensProblemSolverWithBacktracking {
 
         if (solution == null) {
 //            System.out.println("There is no solution");
-            JOptionPane.showMessageDialog(null, "There is no solution", "", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "There is no solution",
+                    "", JOptionPane.INFORMATION_MESSAGE);
         } else {
 //            System.out.println("Solution for " + numberOfQueens + " queens problem: ");
 //            System.out.println("");

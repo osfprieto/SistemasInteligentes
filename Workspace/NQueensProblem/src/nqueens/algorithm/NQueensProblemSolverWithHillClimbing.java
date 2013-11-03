@@ -41,13 +41,17 @@ public class NQueensProblemSolverWithHillClimbing {
     private void initializeQueens() {
 
         for (int i = 0; i < numberOfQueens; i++) {
-            solutionAttempt.queens[i] = new Queen(new Coordinate(i, random(numberOfQueens)));
+            solutionAttempt.queens[i] =
+                    new Queen(new Coordinate(i, random(numberOfQueens)));
         }
     }
 
     private int random(int max) {
 
-        double random = Math.random() * 10 + Math.random() * 100 + Math.random() * 1000;
+        double random =
+                Math.random() * 10 +
+                Math.random() * 100 +
+                Math.random() * 1000;
         return (int) random % max;
     }
 

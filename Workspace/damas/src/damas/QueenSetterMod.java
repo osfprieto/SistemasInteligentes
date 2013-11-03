@@ -15,29 +15,12 @@ public class QueenSetterMod {
     
         position = new int[n];
         
+        long startTime = System.currentTimeMillis();
         solve(0);
+        System.out.println("Time: "+(System.currentTimeMillis()-startTime));
         
     }
  
-    // Check if a position is safe
-    private static boolean isSafe(int queenNumber, int rowPosition)
-    {
-            // Check each queen before this one
-            for(int i=0; i<queenNumber; i++)
-            {
-                    // Get another queen's row_position
-                    int other_row_pos = position[i];
-
-                    // Now check if they're in the same row or diagonals
-                    if(other_row_pos == rowPosition || // Same row
-                            other_row_pos == rowPosition - (queenNumber-i) || // Same diagonal
-                            other_row_pos == rowPosition + (queenNumber-i))   // Same diagonal
-                            return false;
-            }
-            return true;
-    }
-
-
     // Recursively generate a tuple like [0 0 0 0], then [0 0 0 1] then etc...
     private static void solve(int k)
     {
@@ -61,6 +44,24 @@ public class QueenSetterMod {
                             }
                     }
             }
+    }
+    
+    // Check if a position is safe
+    private static boolean isSafe(int queenNumber, int rowPosition)
+    {
+            // Check each queen before this one
+            for(int i=0; i<queenNumber; i++)
+            {
+                    // Get another queen's row_position
+                    int other_row_pos = position[i];
+
+                    // Now check if they're in the same row or diagonals
+                    if(other_row_pos == rowPosition || // Same row
+                            other_row_pos == rowPosition - (queenNumber-i) || // Same diagonal
+                            other_row_pos == rowPosition + (queenNumber-i))   // Same diagonal
+                            return false;
+            }
+            return true;
     }
     
     private static void removeQueens(){

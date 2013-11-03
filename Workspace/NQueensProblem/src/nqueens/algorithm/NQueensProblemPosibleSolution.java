@@ -54,7 +54,8 @@ public class NQueensProblemPosibleSolution {
 
         Queen conflictingQueen = queens[0];
         for (int i = 1; i < queens.length; i++) {
-            if (conflictsOfAQueen(conflictingQueen) > conflictsOfAQueen(queens[i])) {
+            if (conflictsOfAQueen(conflictingQueen) >
+                    conflictsOfAQueen(queens[i])) {
                 conflictingQueen = queens[i];
             }
         }
