@@ -18,17 +18,14 @@ public class NQueensProblemSolverWithBacktracking {
     private int numberOfQueens;
     private ArrayList<NQueensProblemState> nextStates;
     private NQueensProblemPosibleSolution solution;
-    private long milliseconds=0;
 
     public NQueensProblemSolverWithBacktracking(int queens) {
 
         if (queens > 0) {
-            long millis = new Date().getTime();
             System.out.println("Solving " + queens + " queens problem...");
             this.nextStates = new ArrayList<>();
             this.numberOfQueens = queens;
             solve();
-            milliseconds = new Date().getTime() - millis;
             showSolution();
         }
     }
@@ -50,7 +47,7 @@ public class NQueensProblemSolverWithBacktracking {
         if (actualState.posibleSolution.isSolution()) {
             solution = actualState.posibleSolution;
         } else {
-            ArrayList<NQueensProblemPosibleSolution> successors = actualState.posibleSolution.successorsList();
+            ArrayList<NQueensProblemPosibleSolution> successors = actualState.posibleSolution.successorsListForBackTracking();
             for (int i = 0; i < successors.size(); i++) {
                 NQueensProblemState newState = new NQueensProblemState(actualState, successors.get(i));
                 nextStates.add(i, newState);

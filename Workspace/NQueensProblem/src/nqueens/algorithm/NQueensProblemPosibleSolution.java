@@ -39,6 +39,28 @@ public class NQueensProblemPosibleSolution {
         return true;
     }
 
+    public int conflictsOfAQueen(Queen queen) {
+
+        int conflicts = 0;
+        for (int i = 0; i < queens.length; i++) {
+            if (queens[i].attacksQueen(queen) && !queens[i].equals(queen)) {
+                conflicts++;
+            }
+        }
+        return conflicts;
+    }
+
+    public Queen maxConflictingQueen() {
+
+        Queen conflictingQueen = queens[0];
+        for (int i = 1; i < queens.length; i++) {
+            if (conflictsOfAQueen(conflictingQueen) > conflictsOfAQueen(queens[i])) {
+                conflictingQueen = queens[i];
+            }
+        }
+        return conflictingQueen;
+    }
+
     public boolean satisfiesConstraints() {
 
         for (int i = 0; i < queens.length; i++) {
@@ -53,7 +75,7 @@ public class NQueensProblemPosibleSolution {
         return true;
     }
 
-    public ArrayList<NQueensProblemPosibleSolution> successorsList() {
+    public ArrayList<NQueensProblemPosibleSolution> successorsListForBackTracking() {
 
         int row = 0;
         for (int i = 0; i < queens.length; i++) {
@@ -80,6 +102,10 @@ public class NQueensProblemPosibleSolution {
     @Override
     public String toString() {
 
-        return "\n" + queens.toString();
+        String string = "";
+        for (int i = 0; i < queens.length; i++) {
+            string += " " + queens[i].toString();
+        }
+        return string;
     }
 }
