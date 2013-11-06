@@ -49,18 +49,18 @@ public class QueenSetterMod {
     }
     
     // Check if a position is safe
-    private static boolean isSafe(int queenNumber, int rowPosition)
+    private static boolean isSafe(int queenNumber, int rowPos)
     {
             // Check each queen before this one
             for(int i=0; i<queenNumber; i++)
             {
                     // Get another queen's row_position
-                    int other_row_pos = position[i];
+                    int otherRowPos = position[i];
 
                     // Now check if they're in the same row or diagonals
-                    if(other_row_pos == rowPosition || // Same row
-                            other_row_pos == rowPosition - (queenNumber-i) || // Same diagonal
-                            other_row_pos == rowPosition + (queenNumber-i))   // Same diagonal
+                    if(otherRowPos == rowPos || // Same row
+                            otherRowPos == rowPos - (queenNumber-i) || // Same diagonal
+                            otherRowPos == rowPos + (queenNumber-i))   // Same diagonal
                             return false;
             }
             return true;
