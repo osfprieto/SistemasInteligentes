@@ -19,53 +19,134 @@ public class QueenSetter {
     public static Cell board[][];
     public static LinkedList<Cell> queenCells;
     public static int position[];
+    public static Random random;
     
     public static void putQueens(Cell[][] boardRecieved){
         board = boardRecieved;
         n = board.length;
+        random = new Random();
         
         queenCells = new LinkedList<Cell>();
         removeQueens();
         fillRandomly();
         
-        System.out.println("StartClimbing");
+        long time = System.currentTimeMillis();
+        //int cont = 0;
         
-        climb(0);
+        Cell mostProblematic = mostProblematicQueen();
         
-        System.out.println("Finished");
-    }
-    
-    private static boolean climb(int row) {
-
-        if (row >= 0 && row < n) {
+        while(mostProblematic!=null){
             
-            if(feasible()){
-                return true;
+            relocate(mostProblematic);
+            
+            mostProblematic = mostProblematicQueen();
+            //cont++;
+            try{
+                //Thread.sleep(1000);
             }
-            for (int i = 0; i < n; i++) {
-                if(climb(row + 1)){
-                    return true;
-                }
+            catch(Exception e){
                 
-                moveQueen(i);
             }
         }
-        return feasible();
+        
+        System.out.println("Time: "+(System.currentTimeMillis()-time));
     }
     
-    private static void moveQueen(int i) {
-
-        board[i][position[i]].setHasQueen(false);
-        queenCells.remove(board[i][position[i]]);
+    
+    private static void relocate(Cell mostProblematic){
+        mostProblematic.setHasQueen(false);
+        queenCells.remove(mostProblematic);
         
-        position[i]++;
-        position[i]%=n;
+        Cell destination = minumumAttackersOnI(mostProblematic);
         
-        board[i][position[i]].setHasQueen(true);
-        queenCells.add(board[i][position[i]]);
+        position[destination.getI()] = destination.getJ();
+        destination.setHasQueen(true);
+        queenCells.add(destination);
     }
     
-    public static void fillRandomly(){
+    private static Cell minumumAttackersOnI(Cell cell){
+        int I = cell.getI();
+        int J = cell.getJ();
+        
+        int min = Integer.MAX_VALUE;
+        Cell minCell = null;
+        
+        for(int j=0;j<n;j++){
+            int temp = attackers(cell);
+            if(J!=j && temp<min){
+                min = temp;
+                minCell = board[I][j];
+            }
+        }
+        return minCell;
+    }
+    
+    private static void mixQueens(){
+        for(int i=0;i<n;i++)
+            queenCells.add(0, queenCells.remove(random.nextInt(n)));
+    }
+    
+    private static Cell mostProblematicQueen(){
+        int max = 0;
+        Cell mostProblematic = null;
+        mixQueens();
+        for(Cell queen : queenCells){
+            int temp = attackers(queen);
+            if(temp>max){
+                max = temp;
+                mostProblematic = queen;
+            }
+        }
+        return mostProblematic;
+    }
+    
+    private static int attackers(Cell cell){
+        
+        int I = cell.getI();
+        int J = cell.getJ();
+        
+        int attackers = 0;
+        
+        //Rectas por I
+        for(int i=I+1;i<n;i++)
+            if(board[i][J].hasQueen())
+                attackers++;
+        
+        for(int i=I-1;i>=0;i--)
+            if(board[i][J].hasQueen())
+                attackers++;
+        
+        //Rectas por J
+        for(int j=J+1;j<n;j++)
+            if(board[I][j].hasQueen())
+                attackers++;
+        
+        for(int j=J-1;j>=0;j--)
+            if(board[I][j].hasQueen())
+                attackers++;
+        
+        //Diagonales
+        
+        for(int i=I+1, j=J+1;i<n && j<n; i++, j++)
+            if(board[i][j].hasQueen())
+                attackers++;
+        
+        for(int i=I-1, j=J+1;i>=0 && j<n; i--, j++)
+            if(board[i][j].hasQueen())
+                attackers++;
+        
+        for(int i=I+1, j=J-1;i<n && j>=0; i++, j--)
+            if(board[i][j].hasQueen())
+                attackers++;
+        
+        for(int i=I-1, j=J-1;i>=0 && j>=0; i--, j--)
+            if(board[i][j].hasQueen())
+                attackers++;
+            
+        return attackers;
+    }
+    
+    private static void fillRandomly(){
         int rows[] = new int[n];
         int cols[] = new int[n];
         
@@ -118,7 +199,7 @@ public class QueenSetter {
         
     }
     
-    public static void removeQueens(){
+    private static void removeQueens(){
         queenCells.clear();
         for(int i=0;i<n;i++)
             for(int j=0;j<n;j++)
@@ -137,63 +218,6 @@ public class QueenSetter {
         if(a<0)
             return -a;
         return a;
-    }
-    
-    public static boolean feasible(){
-        return !(isAQueenChasingOtherOne()!=null);
-    }
-    
-    public static Cell isAQueenChasingOtherOne(){
-        for(Cell cell : queenCells){
-            Cell chased = isChasingOtherQueen(cell);
-            if(chased!=null)
-                return cell;
-        }
-        return null;
-    }
-    
-    public static Cell isChasingOtherQueen(Cell cell){
-        
-        int I = cell.getI();
-        int J = cell.getJ();
-        
-        //Rectas por I
-        for(int i=I+1;i<n;i++)
-            if(board[i][J].hasQueen())
-                return board[i][J];
-        
-        for(int i=I-1;i>=0;i--)
-            if(board[i][J].hasQueen())
-                return board[i][J];
-        
-        //Rectas por J
-        for(int j=J+1;j<n;j++)
-            if(board[I][j].hasQueen())
-                return board[I][j];
-        
-        for(int j=J-1;j>=0;j--)
-            if(board[I][j].hasQueen())
-                return board[I][j];
-        
-        //Diagonales
-        
-        for(int i=I+1, j=J+1;i<n && j<n; i++, j++)
-            if(board[i][j].hasQueen())
-                return board[i][j];
-        
-        for(int i=I-1, j=J+1;i>=0 && j<n; i--, j++)
-            if(board[i][j].hasQueen())
-                return board[i][j];
-        
-        for(int i=I+1, j=J-1;i<n && j>=0; i++, j--)
-            if(board[i][j].hasQueen())
-                return board[i][j];
-        
-        for(int i=I-1, j=J-1;i>=0 && j>=0; i--, j--)
-            if(board[i][j].hasQueen())
-                return board[i][j];
-            
-        return null;
     }
     
 }
