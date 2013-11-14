@@ -9,6 +9,7 @@ public class QueenSetterMod {
     private static Cell board[][];
     private static int[] position;
     private static int n;
+    private static boolean solutionFound;
     
     public static void putQueens(Cell[][] board) {
     
@@ -16,6 +17,8 @@ public class QueenSetterMod {
         n = board.length;
     
         position = new int[n];
+        
+        solutionFound = false;
         
         long startTime = System.currentTimeMillis();
         solve(0);
@@ -25,14 +28,21 @@ public class QueenSetterMod {
  
     // Recursively generate a tuple like [0 0 0 0], then [0 0 0 1] then etc...
     private static void solve(int k){
+        try {
+            //Thread.sleep(200);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         if(k == n){// Solution found!
+            solutionFound=true;
             removeQueens();
             for(int i=0;i<n;i++)
                 board[i][position[i]].setHasQueen(true);
         }else{
-            for(int i=0; i<n; i++){//Generate all possible solutions 
+            for(int i=0; i<n && !solutionFound; i++){//Generate all possible solutions 
                 
                 if(isSafe(k,i)){
+                    
                     // Before putting a queen (the k-th queen) into a row,
                     //test it for safeness and places other queen
                     position[k] = i;

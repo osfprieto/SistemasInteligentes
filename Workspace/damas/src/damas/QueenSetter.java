@@ -33,13 +33,13 @@ public class QueenSetter {
         long time = System.currentTimeMillis();
         //int cont = 0;
         
-        Cell mostProblematic = mostProblematicQueen();
-        
-        while(mostProblematic!=null){
+        while(!feasible()){
             
-            relocate(mostProblematic);
+            Cell newQueenPosition = cellToPutQueen();
             
-            mostProblematic = mostProblematicQueen();
+            relocate(newQueenPosition);
+            
+            
             //cont++;
             try{
                 //Thread.sleep(1000);
@@ -52,16 +52,50 @@ public class QueenSetter {
         System.out.println("Time: "+(System.currentTimeMillis()-time));
     }
     
+    private static boolean feasible(){
+        for(Cell q : queenCells)
+            if(attackers(q)>0)
+                return false;
+        return true;
+    }
     
-    private static void relocate(Cell mostProblematic){
-        mostProblematic.setHasQueen(false);
-        queenCells.remove(mostProblematic);
+    private static Cell cellToPutQueen(){
+        LinkedList<Cell> possibleCells = cellsWithMinimumAttackers();
         
-        Cell destination = minumumAttackersOnI(mostProblematic);
+        return possibleCells.get(random.nextInt(possibleCells.size()));
+    }
+    
+    private static LinkedList<Cell> cellsWithMinimumAttackers(){
+        LinkedList<Cell> ret = new LinkedList<Cell>();
         
+        int min = Integer.MAX_VALUE;
+        
+        int count[][] = new int[n][n];
+        
+        for(int i=0;i<n;i++)
+            for(int j=0;j<n;j++){
+                count[i][j] = attackers(board[i][j]);
+                if(count[i][j]<min)
+                    min = count[i][j];
+            }
+        
+        for(int i=0;i<n;i++)
+            for(int j=0;j<n;j++)
+                if(count[i][j]==min)
+                    ret.add(board[i][j]);
+        
+        return ret;
+    }
+    
+    private static void relocate(Cell destination){
+        
+        queenCells.remove(board[destination.getI()][position[destination.getI()]]);
+        board[destination.getI()][position[destination.getI()]].setHasQueen(false);
+        
+        queenCells.add(destination);
         position[destination.getI()] = destination.getJ();
         destination.setHasQueen(true);
-        queenCells.add(destination);
+        
     }
     
     private static Cell minumumAttackersOnI(Cell cell){

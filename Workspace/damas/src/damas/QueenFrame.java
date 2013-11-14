@@ -28,7 +28,7 @@ public class QueenFrame extends JFrame{
     public static void main(String[] args) {
         
         JPanel optionsPanel = new JPanel();
-        optionsPanel.setLayout(new GridLayout(2, 2));
+        optionsPanel.setLayout(new GridLayout(1, 2));
         
         JSpinner spinner = new JSpinner();
         String options[] = {"Backtracking", "Hillclimbing"};
@@ -36,8 +36,8 @@ public class QueenFrame extends JFrame{
         
         optionsPanel.add(new JLabel("Queens: "));
         optionsPanel.add(spinner);
-        optionsPanel.add(new JLabel("Solve using method:"));
-        optionsPanel.add(combo);
+        //ptionsPanel.add(new JLabel("Solve using method:"));
+        //optionsPanel.add(combo);
         
         JOptionPane.showMessageDialog(null, optionsPanel, "Solve N-Queen puzzle"
                 , JOptionPane.PLAIN_MESSAGE);

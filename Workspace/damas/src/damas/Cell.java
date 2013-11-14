@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 public class Cell extends JLabel{
     
     public static final ImageIcon QUEEN_IMAGE
-            = new ImageIcon("queenimage.png");
+            = new ImageIcon("royal_crown.png");
     public static final ImageIcon BLANK_IMAGE
             = new ImageIcon("blank.png");
     
