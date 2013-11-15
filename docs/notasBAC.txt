@@ -1,0 +1,62 @@
+http://slovesnov.users.sourceforge.net/bullscows/bullscows.pdf
+
+
+http://slovesnov.users.sourceforge.net/index.php?bullscows,english
+http://slovesnov.users.sourceforge.net/index.php?bullscows_play,english
+
+El mejor es jugar con el algoritmo avg45, tiene mejor promedio de respuesta
+
+http://n1b-algo.blogspot.com/2012/08/bulls-and-cows.html
+step 1. Pick distinct digits to make first guess.
+step 2. Select random guess from the pruned set.
+step 3. Perform step 2, three or four times.
+step 4. Pick guess using information gain measure.
+step 5. Perform step 4, until game is solved.
+
+
+http://www.physicsforums.com/showthread.php?t=301897
+generate list of all passwords.
+    while(passwords left in the list) do: 
+       set p = the first password in the list. 
+       get B, C for attempted password p 
+       if B = 4, then... 
+            return p 
+       else... 
+           eliminate all those which: 
+                 do not match exactly B ordered digits 
+                 do not match exactly B+C unordered digits 
+           eliminate p 
+       end if. 
+    loop.
+
+Read more: http://www.physicsforums.com 
+
+http://www.buenastareas.com/ensayos/Picas-y-Fijas/5373831.html
+http://forums.anandtech.com/showthread.php?t=39268
+
+numero: picas, fijas -> Conclusión hasta ese momento del juego
+
+Jugando contra Alexa
+
+1234: 2, 0
+4567: 1, 2
+4673: 0, 2 -> 4 fijo, 5 pica, 7 fijo, 1 o 2 pica
+4572: 0, 3 -> 5 fija, 2 no pertenece, 1 fija
+4571: 
+
+
+Jugando contra http://pwp.etb.net.co/baperezg/picasfijas.html
+
+123: 0, 0
+456: 2, 0
+678: 2, 0
+890: 0, 1 -> 8 fijo, 6 pica, 4 o 5 es el que queda
+860: 0, 2 -> 6 fijo. Pude haber preguntado 864 o algo para determinar de una vez cual era el otr
+864: Adivinado
+
+
+Enviar uno al azar del conjunto de disponibles
+    Registrar respuesta
+    Para todas las respuestas dadas anteriormente
+        Registrar apariciones de cada digito y contrastar contra respuestas (percepciones) de cada registro
+
