@@ -1,5 +1,7 @@
+
 http://slovesnov.users.sourceforge.net/bullscows/bullscows.pdf
 
+http://rosettacode.org/wiki/Bulls_and_cows/Player
 
 http://slovesnov.users.sourceforge.net/index.php?bullscows,english
 http://slovesnov.users.sourceforge.net/index.php?bullscows_play,english
@@ -54,6 +56,9 @@ Jugando contra http://pwp.etb.net.co/baperezg/picasfijas.html
 860: 0, 2 -> 6 fijo. Pude haber preguntado 864 o algo para determinar de una vez cual era el otr
 864: Adivinado
 
+Jugando contra Julián
+
+12345: 
 
 Enviar uno al azar del conjunto de disponibles
     Registrar respuesta
