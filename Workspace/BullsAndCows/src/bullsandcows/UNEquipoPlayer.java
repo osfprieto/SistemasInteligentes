@@ -19,6 +19,8 @@ public class UNEquipoPlayer{
     private Random random;
     private int guessesDone;
     private char digitsArray[];
+    private String secretNumber;
+    private boolean secretNumberFound;
 
     public UNEquipoPlayer(int answerSize, int digits){
         this.answerSize = answerSize;
@@ -28,17 +30,37 @@ public class UNEquipoPlayer{
 
     private void init(){
 
+        random = new Random();
+        
         digitsArray = new char[digits];
         digitsArray[0] = '0';
         for(int i=1;i<digits;i++)
             digitsArray[i] = (char)(digitsArray[i-1]+1);
 
-        random = new Random();
+        secretNumberFound = false;
+        secretNumber = randomNumber();
+        //System.out.println(secretNumber);
+        
         answers = Shuffle(Permutations(answerSize));
         guessesDone = 0;
 
     }
 
+    private String randomNumber(){
+        String ret = "";
+        
+        LinkedList<Character> availableDigits = new LinkedList<Character>();
+        for(int i=0;i<digits;i++)
+            availableDigits.add(digitsArray[i]);
+        
+        for(int i=0;i<answerSize;i++){
+            int index = random.nextInt(availableDigits.size());
+            ret += ""+availableDigits.get(index);
+            availableDigits.remove(index);
+        }
+        return ret;
+    }
+    
     private LinkedList<String> Permutations(int size){
         if (size > 0){
             LinkedList ret = new LinkedList<String>();
@@ -67,6 +89,25 @@ public class UNEquipoPlayer{
         return ret;
     }
 
+    public int getBulls(String enemyGuess){
+        int tb=0;
+        for (int ix = 0; ix < answerSize; ix++)
+            if (secretNumber.charAt(ix) == enemyGuess.charAt(ix))
+                tb++;
+        if(tb==answerSize)
+            secretNumberFound = true;
+        return tb;
+    }
+    
+    public int getCows(String enemyGuess){
+        int tc=0;
+        for (int ix = 0; ix < answerSize; ix++)
+            if (!(secretNumber.charAt(ix) == enemyGuess.charAt(ix)) && 
+               (secretNumber.contains(""+enemyGuess.charAt(ix))))
+                tc++;
+        return tc;
+    }
+    
     public void registerBullsAndCows(String guess, int bulls, int cows){
 
         for (int ans = answers.size() - 1; ans >= 0; ans--){
@@ -98,5 +139,10 @@ public class UNEquipoPlayer{
     public int getGuessesDone(){
         return guessesDone;
     }
+    
+    public boolean hasBeenBeaten(){
+        return secretNumberFound;
+    }
+    
 }
     
