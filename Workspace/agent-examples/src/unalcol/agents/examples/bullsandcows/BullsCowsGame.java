@@ -50,7 +50,7 @@ public class BullsCowsGame
         int digits = read("Digits?");
         int positions = read("Positions?");
         NumberIndex ni = new NumberIndex(digits, positions);
-        SimpleBCPlayer player = new SimpleBCPlayer(ni);
+        UNEquipoPlayer player = new UNEquipoPlayer(ni);
         int s = ni.size();
         int c_number = Random.nextInt(s);
         int opt[] = ni.getOption(c_number);

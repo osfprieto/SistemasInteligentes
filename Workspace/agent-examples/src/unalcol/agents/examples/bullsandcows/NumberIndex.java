@@ -1,5 +1,6 @@
 package unalcol.agents.examples.bullsandcows;
 
+import java.util.Arrays;
 import unalcol.types.collection.vector.Vector;
 
 public class NumberIndex
@@ -15,6 +16,7 @@ public class NumberIndex
 
     public static int compute(int digits, int positions, int options[])
     {
+        //System.out.println(Arrays.toString(options));
         if(options[positions] == 0)
             if(positions == 1)
                 options[positions] = digits;

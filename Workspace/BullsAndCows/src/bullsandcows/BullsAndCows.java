@@ -16,9 +16,9 @@ public class BullsAndCows {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        justGuess();
-        justBeGuessed();
-        playAgainstHumanUser();
+        //justGuess();
+        //justBeGuessed();
+        //playAgainstHumanUser();
         matchTwoVirtualPlayers();
     }
     
@@ -175,7 +175,7 @@ public class BullsAndCows {
         int digits = sc.nextInt();
 
         UNEquipoPlayer player1 = new UNEquipoPlayer(answerSize, digits);
-        UNEquipoPlayer player2 = new UNEquipoPlayer(answerSize, digits);
+        UNEquipoPlayer player2 = player1.clone();
 
         while(player1.hasToAsk() && player2.hasToAsk()){
             

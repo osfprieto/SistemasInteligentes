@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package bullsandcows;
+package unalcol.agents.examples.bullsandcows;
 
 //Player for Bulls and cows
 
@@ -21,10 +21,12 @@ public class UNEquipoPlayer{
     private char digitsArray[];
     private String secretNumber;
     private boolean secretNumberFound;
+    private NumberIndex ni;
 
-    public UNEquipoPlayer(int answerSize, int digits){
-        this.answerSize = answerSize;
-        this.digits = digits;
+    public UNEquipoPlayer(NumberIndex ni){
+        this.ni = ni;
+        this.answerSize = ni.positions;
+        this.digits = ni.digits;
         init();
     }
 
@@ -124,6 +126,15 @@ public class UNEquipoPlayer{
         }
 
     }
+    
+    public int[] next(){
+        String guess = getGuess();
+        int ret[] = new int[guess.length()];
+        char chars[] = guess.toCharArray();
+        for(int i=0;i<chars.length;i++)
+            ret[i] = (int)(chars[i]-'0');
+        return ret;
+    }
 
     public String getGuess(){
         guessesDone++;
@@ -146,8 +157,8 @@ public class UNEquipoPlayer{
         return secretNumberFound;
     }
     
-    public UNEquipoPlayer clone(){
-        UNEquipoPlayer cloned = new UNEquipoPlayer(1, 1);
+    /*public UNEquipoPlayer clone(){
+        UNEquipoPlayer cloned = new UNEquipoPlayer(null);
         cloned.answerSize = answerSize;
         cloned.answers = (LinkedList<String>) answers.clone();
         cloned.digits = digits;
@@ -157,6 +168,22 @@ public class UNEquipoPlayer{
         cloned.secretNumber = cloned.randomNumber();
         cloned.secretNumberFound = secretNumberFound;
         return cloned;
+    }*/
+
+    boolean check(int[] m_opt, int[] bc) {
+        int bulls = bc[0];
+        int cows = bc[1];
+        
+        String guess = "";
+        for(int i=0;i<m_opt.length;i++)
+            guess += ""+m_opt[i];
+        
+        //System.out.println(guess);
+        
+        registerBullsAndCows(guess, bulls, cows);
+        
+        return answers.size()>0;
+        
     }
     
 }
