@@ -12,6 +12,7 @@ import java.util.Random;
 
 public class UNEquipoPlayer{
    
+    private static final int SIZE_TO_USE_ENTROPY = 300;
         
     private int answerSize;
     private int digits;
@@ -21,6 +22,7 @@ public class UNEquipoPlayer{
     private char digitsArray[];
     private String secretNumber;
     private boolean secretNumberFound;
+    private EntropyGuess entropyGuess;
 
     public UNEquipoPlayer(int answerSize, int digits){
         this.answerSize = answerSize;
@@ -42,6 +44,7 @@ public class UNEquipoPlayer{
         //System.out.println(secretNumber);
         
         answers = Permutations(answerSize);
+        entropyGuess = new EntropyGuess(answers);
         //System.out.println(answers.size());
         guessesDone = 0;
     }
@@ -127,6 +130,9 @@ public class UNEquipoPlayer{
 
     public String getGuess(){
         guessesDone++;
+        if(answers.size()<=SIZE_TO_USE_ENTROPY){
+            return entropyGuess.computeGuess(answers);
+        }
         return answers.get(random.nextInt(answers.size()));
     }
 

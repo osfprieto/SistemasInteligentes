@@ -13,13 +13,28 @@ import java.util.Scanner;
 public class Test {
     
     public static void main(String args[]){
-        Scanner sc = new Scanner(System.in);
-        UNEquipoPlayer player = new UNEquipoPlayer(4, 10);
-        while(true){
-            String input = sc.next();
-            System.out.println(player.getBulls(input));
-            System.out.println(player.getCows(input));
+        
+        double sum = 0;
+        int limit = 5;
+        
+        for(int i=0;i<limit;i++){
+            
+            UNEquipoPlayer player = new UNEquipoPlayer(4, 10);
+            
+            System.out.print(i+"\t");
+            
+            while(!player.hasBeenBeaten()){
+                String guess = player.getGuess();
+                int bulls = player.getBulls(guess);
+                int cows = player.getCows(guess);
+                player.registerBullsAndCows(guess, bulls, cows);
+            }
+            
+            sum += player.getGuessesDone();
+            
+            System.out.println(player.getGuessesDone());
         }
+        System.out.println(sum/limit);
     }
     
 }
