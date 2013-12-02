@@ -16,7 +16,7 @@ public class EntropyGuess {
     private double maxEntropy;
     
     public EntropyGuess(LinkedList<String> initVocab){
-        this.initVocab = initVocab;
+        this.initVocab = (LinkedList<String>) initVocab;
         
         //theoretically max entropy
         maxEntropy = (initVocab.size() * Math.log10(initVocab.size()));

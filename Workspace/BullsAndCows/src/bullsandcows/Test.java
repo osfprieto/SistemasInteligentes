@@ -15,7 +15,7 @@ public class Test {
     public static void main(String args[]){
         
         double sum = 0;
-        int limit = 5;
+        int limit = 250;
         
         for(int i=0;i<limit;i++){
             
