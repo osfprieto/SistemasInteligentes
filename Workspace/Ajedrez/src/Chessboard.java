@@ -720,12 +720,30 @@ public class Chessboard {
         return ret;
     }
 
-    public LinkedList<Chessboard> getChildsNodes() {
+    public LinkedList<Chessboard> getChildNodes() {
 
+        LinkedList<Chessboard> ret = new LinkedList<Chessboard>();
+        
+        for(int i=0;i<8;i++)
+            for(int j=0;j<8;j++)
+                if(chessboardPieces[i][j].BeBlack==beBlacksMove){
+                    LinkedList<Chessboard> childNodesForPiece =
+                            getChildNodesForAPiece(i, j);
+                    for(Chessboard c : childNodesForPiece)
+                        ret.add(c);
+                }
 
-
-        return null;
+        return ret;
     }
+    
+    public LinkedList<Chessboard> getChildNodesForAPiece(int i, int j){
+        LinkedList<Chessboard> ret = new LinkedList<Chessboard>();
+        
+        
+        
+        return ret;
+    }
+    
     private Chesspiece chessboardPieces[][];
     private Chesspiece deadPieces[][];
     private boolean beBlacksMove;
