@@ -93,4 +93,14 @@ public class King extends Chesspiece
 
     private static final boolean DEBUG = false;
     boolean Castled;
+
+    @Override
+    public void SetNotFirst() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean HaveMoved() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

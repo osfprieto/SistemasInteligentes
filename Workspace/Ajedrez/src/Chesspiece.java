@@ -1,7 +1,7 @@
 
 import javax.swing.JLabel;
 
-public class Chesspiece extends JLabel{
+public abstract class Chesspiece extends JLabel{
 
     public Chesspiece()
     {
@@ -14,29 +14,13 @@ public class Chesspiece extends JLabel{
         ThisGame = Board;
     }
 
-    public boolean HaveCastled()
-    {
-        return false;
-    }
+    public abstract boolean HaveCastled();
+    public abstract void SetNotFirst();
+    public abstract boolean HaveMoved();
+    public abstract boolean IsCastle(int X2, int Y2, Chesspiece Chessboard[][]);
+    public abstract boolean ValidMove(int X2, int Y2, boolean BeBlack, Chesspiece achesspiece[][]);
 
-    public void SetNotFirst()
-    {
-    }
-
-    public boolean HaveMoved()
-    {
-        return false;
-    }
-
-    public boolean IsCastle(int X2, int Y2, Chesspiece Chessboard[][])
-    {
-        return false;
-    }
-
-    public void Moved()
-    {
-        
-    }
+    public abstract void Moved();
 
     protected void SetIdentity(boolean BeBlack, char ChPieceName, int Row, int Col)
     {
@@ -62,10 +46,7 @@ public class Chesspiece extends JLabel{
         return BeBlack;
     }
 
-    public boolean ValidMove(int X2, int Y2, boolean BeBlack, Chesspiece achesspiece[][])
-    {
-        return false;
-    }
+    
 
     public int MoveScore(Chesspiece Board[][])
     {
