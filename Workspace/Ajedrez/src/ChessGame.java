@@ -1,4 +1,5 @@
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
@@ -14,6 +15,7 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /*
@@ -32,6 +34,9 @@ public class ChessGame extends JFrame implements MouseListener, ImageObserver{
     Chessboard chessboard;
     Container cont;
     JPanel panelBoard;
+    JPanel panelInfo;
+    JLabel labelBlacksInfo;
+    JLabel labelWhitesInfo;
     Cell cells[][];
     
     boolean movingPiece;
@@ -57,6 +62,8 @@ public class ChessGame extends JFrame implements MouseListener, ImageObserver{
 
         cont = getContentPane();
         cont.removeAll();
+        cont.setLayout(new BorderLayout());
+        
         panelBoard = new JPanel();
         panelBoard.setLayout(new GridLayout(BOARD_SIZE, BOARD_SIZE));
         cells = new Cell[BOARD_SIZE][BOARD_SIZE];
@@ -78,11 +85,22 @@ public class ChessGame extends JFrame implements MouseListener, ImageObserver{
             }
         }
 
-        cont.add(panelBoard);
+        labelBlacksInfo = new JLabel("");
+        labelWhitesInfo = new JLabel("");
+        
+        panelInfo = new JPanel();
+        panelInfo.setLayout(new GridLayout(2, 2));
+        panelInfo.add(new JLabel("Black score:"));
+        panelInfo.add(labelBlacksInfo);
+        panelInfo.add(new JLabel("White score:"));
+        panelInfo.add(labelWhitesInfo);
+        
+        cont.add(panelBoard, BorderLayout.CENTER);
+        cont.add(panelInfo, BorderLayout.EAST);
         
         setVisible(true);
         updateUI();
-        setBounds(100, 100, 600, 600);
+        setBounds(100, 100, 750, 600);
     }
     
     public void updateUI(){
@@ -128,6 +146,8 @@ public class ChessGame extends JFrame implements MouseListener, ImageObserver{
                 
                 cells[i][j].setIcon(icon);
                 cells[i][j].setPath(path);
+                cells[i][j].setVerticalAlignment(JLabel.CENTER);
+                cells[i][j].setHorizontalAlignment(JLabel.CENTER);
             }
         }
         
@@ -182,9 +202,13 @@ public class ChessGame extends JFrame implements MouseListener, ImageObserver{
             }
             
             updateUI();
-            System.out.println("For blacks moving: "+chessboard.EvaluateBoard(true));
-            System.out.println("For whites moving: "+chessboard.EvaluateBoard(false));
-            System.out.println();
+            
+            labelBlacksInfo.setText(""+chessboard.EvaluateBoard(true));
+            labelWhitesInfo.setText(""+chessboard.EvaluateBoard(false));
+            
+            //System.out.println("For blacks moving: "+chessboard.EvaluateBoard(true));
+            //System.out.println("For whites moving: "+chessboard.EvaluateBoard(false));
+            //System.out.println();
         }
         
     }
