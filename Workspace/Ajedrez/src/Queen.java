@@ -141,4 +141,15 @@ public class Queen extends Chesspiece
     public void Moved() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public Chesspiece clone() {
+        Chesspiece ret = new Queen(ThisGame, BeBlack, Row, Col);
+        return ret;
+    }
+
+    @Override
+    public Chesspiece clone(Chessboard board) {
+        return new Queen(board, BeBlack, Row, Col);
+    }
 }

@@ -103,4 +103,15 @@ public class King extends Chesspiece
     public boolean HaveMoved() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public Chesspiece clone() {
+        Chesspiece ret = new King(ThisGame, BeBlack, Row, Col);
+        return ret;
+    }
+
+    @Override
+    public Chesspiece clone(Chessboard board) {
+        return new King(board, BeBlack, Row, Col);
+    }
 }

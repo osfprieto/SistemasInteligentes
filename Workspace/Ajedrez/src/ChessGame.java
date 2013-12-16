@@ -208,6 +208,7 @@ public class ChessGame extends JFrame implements MouseListener, ImageObserver{
             chessboard.setBeBlacksMove(false);
             labelWhitesInfo.setText(""+chessboard.EvaluateBoard());
             
+            System.out.println(chessboard.getChildNodes().size());
             //System.out.println("For blacks moving: "+chessboard.EvaluateBoard(true));
             //System.out.println("For whites moving: "+chessboard.EvaluateBoard(false));
             //System.out.println();

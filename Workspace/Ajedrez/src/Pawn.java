@@ -98,4 +98,15 @@ public class Pawn extends Chesspiece
     public void Moved() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public Chesspiece clone() {
+        Chesspiece ret = new Pawn(ThisGame, BeBlack, Row, Col);
+        return ret;
+    }
+
+    @Override
+    public Chesspiece clone(Chessboard board) {
+        return new Pawn(board, BeBlack, Row, Col);
+    }
 }

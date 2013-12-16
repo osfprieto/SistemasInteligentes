@@ -9,7 +9,7 @@ public class Chessboard {
         initializeBoard(8);
     }
 
-    public boolean MakeMove(boolean BeBlacksMove, int X1, int Y1, int X2, int Y2) {
+    public boolean MakeMove(int X1, int Y1, int X2, int Y2) {
         boolean GameOver = false;
         if (chessboardPieces[Y1][X1] != null) {
             boolean BeBlack = chessboardPieces[Y1][X1].GetColor();
@@ -48,7 +48,7 @@ public class Chessboard {
             }
             if (chessboardPieces[Y1][X1].GetName() == 'K' || chessboardPieces[Y1][X1].GetName() == 'k') {
                 if (chessboardPieces[Y1][X1].IsCastle(X2, Y2, chessboardPieces)) {
-                    System.out.println("CASTLING...");
+                    //System.out.println("CASTLING...");
                     chessboardPieces[Y2][X2] = chessboardPieces[Y1][X1];
                     chessboardPieces[Y2][X2].Moved();
                     chessboardPieces[Y1][X1] = null;
@@ -84,7 +84,7 @@ public class Chessboard {
             }
             if (inCheck()) {
                 String StrColor = "White";
-                if (BeBlacksMove) {
+                if (beBlacksMove) {
                     StrColor = "Black";
                 }
             }
@@ -113,7 +113,7 @@ public class Chessboard {
 
     public boolean Clear(int X, int Y, boolean ClearMove) {
         if (chessboardPieces[Y][X] != null) {
-            ClearMove = false;
+            return false;
         }
         return ClearMove;
     }
@@ -123,6 +123,12 @@ public class Chessboard {
     }
 
     public boolean validateMove(int X1, int Y1, int X2, int Y2) {
+        
+        if(chessboardPieces[Y1][X1]==null)
+            return false;
+        if(X1!=X2 || Y1!=Y2)
+            return false;
+        
         boolean IsTaking = checkTaking(X2, Y2);
         boolean ValidMove = chessboardPieces[Y1][X1].ValidMove(X2, Y2, IsTaking, chessboardPieces);
         return ValidMove;
@@ -157,7 +163,7 @@ public class Chessboard {
 
         }
 
-        if (kinglocationx > 0 && kinglocationy > 0) {
+        if (kinglocationx >= 0 && kinglocationy >= 0) {
             for (int x = 0; x < 8; x++) {
                 for (int y = 0; y < 8; y++) {
                     if (chessboardPieces[x][y] != null && chessboardPieces[x][y].ValidMove(kinglocationy, kinglocationx, true, chessboardPieces)) {
@@ -714,8 +720,14 @@ public class Chessboard {
     public Chessboard clone() {
         Chessboard ret = new Chessboard();
         ret.beBlacksMove = beBlacksMove;
-        ret.chessboardPieces = chessboardPieces.clone();
-        ret.deadPieces = deadPieces.clone();
+        for(int i=0;i<8;i++)
+            for(int j=0;j<8;j++)
+                if(chessboardPieces[i][j]!=null){
+                    ret.chessboardPieces[i][j] = chessboardPieces[i][j].clone(ret);
+                }
+                else{
+                    ret.chessboardPieces[i][j] = null;
+                }
 
         return ret;
     }
@@ -723,27 +735,38 @@ public class Chessboard {
     public LinkedList<Chessboard> getChildNodes() {
 
         LinkedList<Chessboard> ret = new LinkedList<Chessboard>();
-        
-        for(int i=0;i<8;i++)
-            for(int j=0;j<8;j++)
-                if(chessboardPieces[i][j].BeBlack==beBlacksMove){
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (chessboardPieces[i][j] != null && chessboardPieces[i][j].BeBlack == beBlacksMove) {
                     LinkedList<Chessboard> childNodesForPiece =
                             getChildNodesForAPiece(i, j);
-                    for(Chessboard c : childNodesForPiece)
+                    for (Chessboard c : childNodesForPiece) {
                         ret.add(c);
+                    }
                 }
+            }
+        }
 
         return ret;
     }
-    
-    public LinkedList<Chessboard> getChildNodesForAPiece(int i, int j){
+
+    public LinkedList<Chessboard> getChildNodesForAPiece(int iSrc, int jSrc) {
         LinkedList<Chessboard> ret = new LinkedList<Chessboard>();
-        
-        
-        
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (validateMove(iSrc, jSrc, i, j)) {
+                    Chessboard newState = this.clone();
+                    newState.beBlacksMove = !beBlacksMove;
+                    newState.MakeMove(iSrc, jSrc, i, j);
+                    ret.add(newState);
+                }
+            }
+        }
+
         return ret;
     }
-    
     private Chesspiece chessboardPieces[][];
     private Chesspiece deadPieces[][];
     private boolean beBlacksMove;

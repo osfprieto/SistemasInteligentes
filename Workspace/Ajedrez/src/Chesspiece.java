@@ -21,6 +21,8 @@ public abstract class Chesspiece extends JLabel{
     public abstract boolean ValidMove(int X2, int Y2, boolean BeBlack, Chesspiece achesspiece[][]);
 
     public abstract void Moved();
+    
+    public abstract Chesspiece clone(Chessboard board);
 
     protected void SetIdentity(boolean BeBlack, char ChPieceName, int Row, int Col)
     {
@@ -73,6 +75,10 @@ public abstract class Chesspiece extends JLabel{
         return WillTake;
     }
 
+    public void setThisGame(Chessboard ThisGame){
+        this.ThisGame = ThisGame;
+    }
+    
     char ChPieceName;
     boolean BeBlack;
     int Row;

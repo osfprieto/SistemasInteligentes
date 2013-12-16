@@ -56,9 +56,11 @@ public class Castle extends Chesspiece
             {
                 if(super.Row > Y)
                 {
-                    for(int i = 0; Y + i < super.Row; i++)
+                    for(int i = 0; Y + i < super.Row; i++){
+                        //System.out.println(i+", "+Y+", "+X);
                         if(!super.ThisGame.Clear(X, Y + i, ClearMove))
                             ClearMove = false;
+                    }
 
                 } else
                 {
@@ -106,5 +108,16 @@ public class Castle extends Chesspiece
     @Override
     public boolean IsCastle(int X2, int Y2, Chesspiece[][] Chessboard) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Chesspiece clone() {
+        Chesspiece ret = new Castle(ThisGame, BeBlack, Row, Col);
+        return ret;
+    }
+
+    @Override
+    public Chesspiece clone(Chessboard board) {
+        return new Castle(board, BeBlack, Row, Col);
     }
 }
