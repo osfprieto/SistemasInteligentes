@@ -19,7 +19,7 @@ public class TeseoEaterMain {
 
   public static void main( String[] argv ){
     //Agent agent = new Agent( new InteractiveAgentProgram( getLanguage() ) );
-    Agent agent = new Agent(new TeseoEaterAgentProgramMod(getLanguage()));
+    Agent agent = new Agent(new TeseoEaterAgentProgram(getLanguage()));
     TeseoEaterMainFrame frame = new TeseoEaterMainFrame( agent, getLanguage() );
     LabyrinthDrawer.DRAW_AREA_SIZE = 600;
     LabyrinthDrawer.CELL_SIZE = 40;

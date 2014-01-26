@@ -118,7 +118,7 @@ public abstract class TeseoEaterAbstractAgentProgram implements AgentProgram{
           cmd.add(rotateLanguage);
           cmd.add(advanceLanguage);
       }
-      else if(accion.equals(TeseoEaterActions.DO_NOTHING_STRING)){
+      else if(accion.equals(TeseoEaterActions.DO_NOTHING_STRING) || accion.equals(TeseoEaterActions.DIE_STRING)){
           cmd.add(dieLanguage);
       }
       else if(accion.equals(TeseoEaterActions.EAT_STRING)){
