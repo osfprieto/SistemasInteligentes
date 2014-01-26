@@ -774,10 +774,10 @@ public class Chessboard {
         //System.out.println("i "+iSrc+" j "+jSrc);
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                if (validateMove(iSrc, jSrc, i, j)) {
+                if (validateMove(jSrc, iSrc, j, i)) {
                     Chessboard newState = this.clone();
+                    newState.MakeMove(jSrc, iSrc, j, i);
                     newState.beBlacksMove = !beBlacksMove;
-                    newState.MakeMove(iSrc, jSrc, i, j);
                     ret.add(newState);
                 }
             }

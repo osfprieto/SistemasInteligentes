@@ -32,7 +32,7 @@ import javax.swing.JPanel;
 public class ChessGame extends JFrame implements MouseListener, ImageObserver{
     
     static final int BOARD_SIZE = 8;
-    static final int MAX_DEPTH = 0;
+    static final int MAX_DEPTH = 2;
     static final boolean TESTING_ENABLED = false;
     
     Chessboard chessboard;
@@ -256,8 +256,11 @@ public class ChessGame extends JFrame implements MouseListener, ImageObserver{
             if(chessboard.validateMove(jPress, iPress, jRelease, iRelease)){
                 //Recieves a valid white move
                 chessboard.MakeMove(jPress, iPress, jRelease, iRelease);
+                chessboard.setBeBlacksMove(true);
                 //Searches for a valid black move
+                System.out.println("Finding best move...");
                 chessboard = (Chessboard) getBestChild(chessboard, 0)[0];
+                chessboard.setBeBlacksMove(false);
                 //System.out.println("------------------");
             }
             
@@ -276,7 +279,7 @@ public class ChessGame extends JFrame implements MouseListener, ImageObserver{
     
     //ret[0]: The actual Chessboard object that follows
     //ret[1]: The value of the maxdepth evaluate best result
-    public Object[] getBestChild(Chessboard chessboard, int actualDepth){
+    public static Object[] getBestChild(Chessboard chessboard, int actualDepth){
         
         LinkedList<Chessboard> nexts = chessboard.getChildNodes();
         Chessboard maxCb = null;
