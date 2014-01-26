@@ -147,6 +147,8 @@ public class Chessboard {
             return false;
         if(chessboardPieces[Y1][X1]==null)
             return false;
+        if(chessboardPieces[Y2][X2]!=null && chessboardPieces[Y1][X1].BeBlack==chessboardPieces[Y2][X2].BeBlack)
+            return false;
         
         boolean IsTaking = checkTaking(X2, Y2);
         boolean ValidMove = chessboardPieces[Y1][X1].ValidMove(X2, Y2, IsTaking, chessboardPieces);
