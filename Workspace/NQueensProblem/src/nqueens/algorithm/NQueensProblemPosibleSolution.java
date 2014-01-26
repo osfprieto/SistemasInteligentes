@@ -5,6 +5,7 @@
 package nqueens.algorithm;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -39,29 +40,6 @@ public class NQueensProblemPosibleSolution {
         return true;
     }
 
-    public int conflictsOfAQueen(Queen queen) {
-
-        int conflicts = 0;
-        for (int i = 0; i < queens.length; i++) {
-            if (queens[i].attacksQueen(queen) && !queens[i].equals(queen)) {
-                conflicts++;
-            }
-        }
-        return conflicts;
-    }
-
-    public Queen maxConflictingQueen() {
-
-        Queen conflictingQueen = queens[0];
-        for (int i = 1; i < queens.length; i++) {
-            if (conflictsOfAQueen(conflictingQueen) >
-                    conflictsOfAQueen(queens[i])) {
-                conflictingQueen = queens[i];
-            }
-        }
-        return conflictingQueen;
-    }
-
     public boolean satisfiesConstraints() {
 
         for (int i = 0; i < queens.length; i++) {
@@ -76,7 +54,7 @@ public class NQueensProblemPosibleSolution {
         return true;
     }
 
-    public ArrayList<NQueensProblemPosibleSolution> successorsListForBackTracking() {
+    public ArrayList<NQueensProblemPosibleSolution> successorsList() {
 
         int row = 0;
         for (int i = 0; i < queens.length; i++) {
@@ -103,10 +81,51 @@ public class NQueensProblemPosibleSolution {
     @Override
     public String toString() {
 
-        String string = "";
+        String toString = "";
         for (int i = 0; i < queens.length; i++) {
-            string += " " + queens[i].toString();
+            for (int j = 0; j < queens.length; j++) {
+                String message = "| ";
+                for (int k = 0; k < queens.length; k++) {
+                    if (queens[k].coordinate.y == i
+                            && queens[k].coordinate.x == j) {
+                        message = "|Q";
+                        break;
+                    }
+                }
+                toString += message;
+            }
+            toString += "|\n";
         }
-        return string;
+        return toString;
+    }
+
+    @Override
+    public NQueensProblemPosibleSolution clone() {
+
+        return new NQueensProblemPosibleSolution(queens.clone());
+    }
+
+    public void permute() {
+        
+        permute(0);
+    }
+
+    private boolean permute(int r) {
+
+        if (r >= 0 && r < queens.length) {
+            for (int k = 0; k < queens.length; k++) {
+                if (!isSolution()) {
+                    if (!permute(r + 1)) {
+                        queens[r].coordinate.x = (queens[r].coordinate.x + 1) % queens.length;
+                    }
+                    else{
+                        return true;
+                    }
+                } else {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
