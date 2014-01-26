@@ -18,6 +18,7 @@ import unalcol.math.logic.Predicate;
 import unalcol.optimization.iterative.IterativePopulationOptimizer;
 import unalcol.optimization.OptimizationFunction;
 import unalcol.optimization.PopulationOptimizer;
+import unalcol.types.collection.bitarray.BitArrayInstance;
 import unalcol.optimization.operators.ArityOne;
 import unalcol.optimization.operators.ArityTwo;
 import unalcol.optimization.operators.Operator;
@@ -62,7 +63,7 @@ public class BitArrayHAEATest {
         Vector<Solution<BitArray>> pop = InstanceProvider.get(solution, POPSIZE);
 
         // Function being optimized
-        OptimizationFunction function =  new MaxOnes();
+        OptimizationFunction function =  new BoundedlyDeceptive();
         // Evaluating the fitness of the initial population
         Solution.evaluate((Vector)pop, function);
 
@@ -104,17 +105,5 @@ public class BitArrayHAEATest {
         
         TracerProvider.close(ea);
     }
-    
-    /*
-     * 
-     * output por línea
-    cuantos nums hay
-    iteración
-    indice del mejor fitness
-    mejor fitness
-    promedio fitness
-    desviación estándar
-    probabilidades poblacionales de los operadores genéticos en el orden que se agregó
-     */
     
 }
