@@ -10,8 +10,12 @@ public class Chessboard {
     }
 
     public boolean MakeMove(int X1, int Y1, int X2, int Y2) {
+        
+        //System.out.println("X1 "+X1+" Y1 "+Y1+" X2 "+X2+" Y2 "+Y2);
+        
         boolean GameOver = false;
         if (chessboardPieces[Y1][X1] != null) {
+            //System.out.println("aaaaaaaaaaa");
             boolean BeBlack = chessboardPieces[Y1][X1].GetColor();
             char ChName = Character.toLowerCase(chessboardPieces[Y1][X1].GetName());
             if (ChName == 'p') {
@@ -47,6 +51,7 @@ public class Chessboard {
                 return GameOver;
             }
             if (chessboardPieces[Y1][X1].GetName() == 'K' || chessboardPieces[Y1][X1].GetName() == 'k') {
+                //System.out.println("bbbbbbbbbbbb");
                 if (chessboardPieces[Y1][X1].IsCastle(X2, Y2, chessboardPieces)) {
                     //System.out.println("CASTLING...");
                     chessboardPieces[Y2][X2] = chessboardPieces[Y1][X1];
@@ -71,9 +76,19 @@ public class Chessboard {
                 }
                 return GameOver;
             }
-            chessboardPieces[Y2][X2] = chessboardPieces[Y1][X1];
+            
+            Chesspiece piece = chessboardPieces[Y1][X1];
+            
+            chessboardPieces[Y2][X2] = piece;
+            
+            //System.out.println(chessboardPieces[Y1][X1]);
+            //System.out.println(chessboardPieces[Y2][X2]);
             chessboardPieces[Y1][X1] = null;
+            //System.out.println(chessboardPieces[Y1][X1]);
+            //System.out.println(chessboardPieces[Y2][X2]);
+            
             chessboardPieces[Y2][X2].TellMeWhereIAm(X2, Y2);
+         
             if (chessboardPieces[Y2][X2].GetName() == 'P' && Y2 == 7) {
                 chessboardPieces[Y2][X2].TellMeWhereIAm(-1, -1);
                 chessboardPieces[Y2][X2] = new Queen(this, true, Y2, X2);
@@ -82,6 +97,9 @@ public class Chessboard {
                 chessboardPieces[Y2][X2].TellMeWhereIAm(-1, -1);
                 chessboardPieces[Y2][X2] = new Queen(this, false, Y2, X2);
             }
+            
+            
+            
             if (inCheck()) {
                 String StrColor = "White";
                 if (beBlacksMove) {
@@ -100,7 +118,7 @@ public class Chessboard {
         return YourPiece;
     }
 
-    public int EvaluateBoard() {
+    public int evaluateBoard() {
         int Score = 0;
         Score += material();
         Score += Position();
@@ -112,6 +130,7 @@ public class Chessboard {
     }
 
     public boolean Clear(int X, int Y, boolean ClearMove) {
+        //System.out.println("X "+X+" Y "+Y);
         if (chessboardPieces[Y][X] != null) {
             return false;
         }
@@ -124,9 +143,9 @@ public class Chessboard {
 
     public boolean validateMove(int X1, int Y1, int X2, int Y2) {
         
-        if(chessboardPieces[Y1][X1]==null)
+        if(X1 == X2 && Y1 == Y2)
             return false;
-        if(X1!=X2 || Y1!=Y2)
+        if(chessboardPieces[Y1][X1]==null)
             return false;
         
         boolean IsTaking = checkTaking(X2, Y2);
@@ -739,8 +758,7 @@ public class Chessboard {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (chessboardPieces[i][j] != null && chessboardPieces[i][j].BeBlack == beBlacksMove) {
-                    LinkedList<Chessboard> childNodesForPiece =
-                            getChildNodesForAPiece(i, j);
+                    LinkedList<Chessboard> childNodesForPiece = getChildNodesForAPiece(i, j);
                     for (Chessboard c : childNodesForPiece) {
                         ret.add(c);
                     }
@@ -753,7 +771,7 @@ public class Chessboard {
 
     public LinkedList<Chessboard> getChildNodesForAPiece(int iSrc, int jSrc) {
         LinkedList<Chessboard> ret = new LinkedList<Chessboard>();
-
+        //System.out.println("i "+iSrc+" j "+jSrc);
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (validateMove(iSrc, jSrc, i, j)) {

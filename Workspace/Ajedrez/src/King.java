@@ -33,6 +33,9 @@ public class King extends Chesspiece
 
     public boolean IsCastle(int X, int Y, Chesspiece Board[][])
     {
+        if(true){
+            return false;
+        }
         boolean ClearMove = true;
         boolean Castle = true;
         if(!HaveCastled())
@@ -70,6 +73,7 @@ public class King extends Chesspiece
             return false;
         }
         return Castle;
+        //return false;
     }
 
     public boolean ValidMove(int X, int Y, boolean Taking, Chesspiece Board[][])

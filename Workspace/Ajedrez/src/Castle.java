@@ -57,7 +57,7 @@ public class Castle extends Chesspiece
                 if(super.Row > Y)
                 {
                     for(int i = 0; Y + i < super.Row; i++){
-                        //System.out.println(i+", "+Y+", "+X);
+                        //System.out.println("i "+i+" Y "+Y+" X "+X);
                         if(!super.ThisGame.Clear(X, Y + i, ClearMove))
                             ClearMove = false;
                     }

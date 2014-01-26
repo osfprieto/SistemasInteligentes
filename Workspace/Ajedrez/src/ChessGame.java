@@ -12,10 +12,12 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
+import java.util.LinkedList;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /*
@@ -30,6 +32,8 @@ import javax.swing.JPanel;
 public class ChessGame extends JFrame implements MouseListener, ImageObserver{
     
     static final int BOARD_SIZE = 8;
+    static final int MAX_DEPTH = 0;
+    static final boolean TESTING_ENABLED = false;
     
     Chessboard chessboard;
     Container cont;
@@ -53,6 +57,7 @@ public class ChessGame extends JFrame implements MouseListener, ImageObserver{
     public ChessGame() {
         super("Chess game");
         chessboard = new Chessboard();
+        chessboard.setBeBlacksMove(false);
         movingPiece = false;
         setupGUI();
         setLocationRelativeTo(null);
@@ -95,8 +100,11 @@ public class ChessGame extends JFrame implements MouseListener, ImageObserver{
         panelInfo.add(new JLabel("White score:"));
         panelInfo.add(labelWhitesInfo);
         
+        
         cont.add(panelBoard, BorderLayout.CENTER);
-        cont.add(panelInfo, BorderLayout.EAST);
+        
+        if(TESTING_ENABLED)
+            cont.add(panelInfo, BorderLayout.EAST);
         
         setVisible(true);
         updateUI();
@@ -175,6 +183,19 @@ public class ChessGame extends JFrame implements MouseListener, ImageObserver{
     @Override
     public void mouseClicked(MouseEvent me) {
         
+        if(chessboard!=null){
+            if(TESTING_ENABLED)
+                notPlayingClick(me);
+            else
+                playingClick(me);
+        }else{
+            JOptionPane.showMessageDialog(null, "Game over", "End of the game",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+        
+    }
+
+    public void notPlayingClick(MouseEvent me){
         Cell src = (Cell) me.getSource();
         
         if(!movingPiece){
@@ -204,18 +225,82 @@ public class ChessGame extends JFrame implements MouseListener, ImageObserver{
             updateUI();
             
             chessboard.setBeBlacksMove(true);
-            labelBlacksInfo.setText(""+chessboard.EvaluateBoard());
+            labelBlacksInfo.setText(""+chessboard.evaluateBoard());
             chessboard.setBeBlacksMove(false);
-            labelWhitesInfo.setText(""+chessboard.EvaluateBoard());
+            labelWhitesInfo.setText(""+chessboard.evaluateBoard());
             
             System.out.println(chessboard.getChildNodes().size());
             //System.out.println("For blacks moving: "+chessboard.EvaluateBoard(true));
             //System.out.println("For whites moving: "+chessboard.EvaluateBoard(false));
             //System.out.println();
         }
+    }
+    
+    public void playingClick(MouseEvent me){//Uno juega con blancas
+        
+        Cell src = (Cell) me.getSource();
+        
+        if(!movingPiece){
+            iPress = src.getI();
+            jPress = src.getJ();
+            if(chessboard.getChessPieces()[iPress][jPress]!=null 
+                    && !chessboard.getChessPieces()[iPress][jPress].BeBlack){
+                src.setBackground(Color.LIGHT_GRAY);
+                movingPiece = true;
+                updateUI();
+            }
+        }else{
+            iRelease = src.getI();
+            jRelease = src.getJ();
+            
+            if(chessboard.validateMove(jPress, iPress, jRelease, iRelease)){
+                //Recieves a valid white move
+                chessboard.MakeMove(jPress, iPress, jRelease, iRelease);
+                //Searches for a valid black move
+                chessboard = (Chessboard) getBestChild(chessboard, 0)[0];
+                //System.out.println("------------------");
+            }
+            
+            if(((iPress + jPress) % 2 == 1)){
+                    cells[iPress][jPress].setBackground(Color.DARK_GRAY);
+            }
+                else{
+                    cells[iPress][jPress].setBackground(Color.WHITE);
+            }
+            
+            movingPiece = false;
+            updateUI();
+        }
         
     }
-
+    
+    //ret[0]: The actual Chessboard object that follows
+    //ret[1]: The value of the maxdepth evaluate best result
+    public Object[] getBestChild(Chessboard chessboard, int actualDepth){
+        
+        LinkedList<Chessboard> nexts = chessboard.getChildNodes();
+        Chessboard maxCb = null;
+        int max = Integer.MIN_VALUE;
+        for(Chessboard cb : nexts){
+            int value;
+            if(actualDepth < MAX_DEPTH){//Reaching the max depth
+                value = ((Integer)getBestChild(cb, actualDepth+1)[1]).intValue();
+            }
+            else{
+                value = cb.evaluateBoard();
+            }
+            if(value > max){
+                max = value;
+                maxCb = cb;
+            }
+        }
+        Object ret[] = new Object[2];
+        ret[0] = maxCb;
+        ret[1] = new Integer(max);
+        return ret;
+        
+    }
+    
     @Override
     public void mousePressed(MouseEvent me) {
         
