@@ -13,8 +13,7 @@ public class NQueensProblemState {
     public NQueensProblemState previousState;
     public NQueensProblemPosibleSolution posibleSolution;
 
-    public NQueensProblemState(NQueensProblemState previousState,
-            NQueensProblemPosibleSolution posibleSolution) {
+    public NQueensProblemState(NQueensProblemState previousState, NQueensProblemPosibleSolution posibleSolution) {
 
         this.previousState = previousState;
         this.posibleSolution = posibleSolution;

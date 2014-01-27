@@ -29,12 +29,9 @@ public class NQueensProblemMain extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
         queens = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
         calculateButton = new javax.swing.JButton();
-        iterativeRB = new javax.swing.JRadioButton();
-        backtrackingRB = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -47,12 +44,6 @@ public class NQueensProblemMain extends javax.swing.JFrame {
             }
         });
 
-        buttonGroup1.add(iterativeRB);
-        iterativeRB.setText("Iterative Mode");
-
-        buttonGroup1.add(backtrackingRB);
-        backtrackingRB.setText("Backtracking Mode");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -62,15 +53,11 @@ public class NQueensProblemMain extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(queens, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
-                        .addComponent(calculateButton)))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(iterativeRB)
-                    .addComponent(backtrackingRB))
-                .addContainerGap(13, Short.MAX_VALUE))
+                        .addComponent(calculateButton))
+                    .addComponent(queens, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -82,12 +69,6 @@ public class NQueensProblemMain extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(calculateButton)
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(iterativeRB)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(backtrackingRB)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -95,13 +76,8 @@ public class NQueensProblemMain extends javax.swing.JFrame {
 
     private void calculateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calculateButtonActionPerformed
         // TODO add your handling code here:
-        if (backtrackingRB.isSelected()) {
-            new NQueensProblemSolverWithBacktracking(((Integer)
-                    queens.getValue()).intValue());
-        } else {
-            new NQueensProblemSolverWithHillClimbing(((Integer)
-                    queens.getValue()).intValue());
-        }
+        new NQueensProblemPolynomialTimeSolver(((Integer)queens.getValue()).intValue());
+//        new NQueensProblemSolverWithBacktracking(((Integer)queens.getValue()).intValue());
     }//GEN-LAST:event_calculateButtonActionPerformed
 
     /**
@@ -139,10 +115,7 @@ public class NQueensProblemMain extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JRadioButton backtrackingRB;
-    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton calculateButton;
-    private javax.swing.JRadioButton iterativeRB;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JSpinner queens;
     // End of variables declaration//GEN-END:variables

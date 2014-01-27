@@ -18,9 +18,10 @@ public class NQueensProblemGUI extends JFrame {
     private Container cont;
     private JPanel panelBoard;
     private Cell board[][];
-
+    
+    
     public NQueensProblemGUI(NQueensProblemPosibleSolution solution) {
-
+        
         super("Queens " + solution.queens.length + "x" + solution.queens.length);
         this.n = solution.queens.length;
         initBoard();
@@ -28,7 +29,7 @@ public class NQueensProblemGUI extends JFrame {
     }
 
     private void initBoard() {
-
+        
         cont = getContentPane();
         cont.removeAll();
         panelBoard = new JPanel();
@@ -43,33 +44,14 @@ public class NQueensProblemGUI extends JFrame {
         }
         cont.add(panelBoard);
         setVisible(true);
-        setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGTH);
+        setBounds(0,0, FRAME_WIDTH, FRAME_HEIGTH);
         this.setLocationRelativeTo(null);
     }
 
     private void putQueensInBoard(NQueensProblemPosibleSolution solution) {
-
-        if (solution != null) {
-            for (int i = 0; i < solution.queens.length; i++) {
-                if (solution.queens[i] != null) {
-                    board[solution.queens[i].coordinate.x][solution.queens[i].coordinate.y].setHasQueen(true);
-                }
-            }
-        }
-    }
-
-    public void updateQueens(NQueensProblemPosibleSolution solutionAttempt) {
         
-        removeQueens();
-        putQueensInBoard(solutionAttempt);
-    }
-
-    private void removeQueens() {
-        
-        for(int i=0;i<board.length;i++){
-            for(int j=0;j<board.length;j++){
-                board[i][j].setHasQueen(false);
-            }
+        for(int i=0;i<solution.queens.length;i++){
+            board[solution.queens[i].coordinate.y][solution.queens[i].coordinate.x].setHasQueen(true);
         }
     }
 }

@@ -260,7 +260,7 @@ public class PathState implements State {
         if (action.equals(TeseoEaterActions.GO_FRONT_STRING)) {
             if (cellsByCoordinates.containsKey(getFrontCoordinate().toString())) {
                 newCell = cellsByCoordinates.get(getFrontCoordinate().toString());
-                newCell.timesVisited +=1;
+                newCell.timesVisited += 1;
             } else {
                 newCell.coordinate = getFrontCoordinate();
             }
@@ -284,7 +284,7 @@ public class PathState implements State {
             }
         } else if (action.equals(TeseoEaterActions.GO_BACK_STRING)) {
             newCell = this.prevState.actualCell;
-            newCell.timesVisited +=1;
+            newCell.timesVisited += 1;
             switch (direction) {
                 case NORTH:
                     direction = SOUTH;
@@ -302,7 +302,7 @@ public class PathState implements State {
         } else if (action.equals(TeseoEaterActions.GO_RIGHT_STRING)) {
             if (cellsByCoordinates.containsKey(getRightCoordinate().toString())) {
                 newCell = cellsByCoordinates.get(getRightCoordinate().toString());
-                newCell.timesVisited +=1;
+                newCell.timesVisited += 1;
             } else {
                 newCell.coordinate = getRightCoordinate();
             }
@@ -331,7 +331,7 @@ public class PathState implements State {
         } else if (action.equals(TeseoEaterActions.GO_LEFT_STRING)) {
             if (cellsByCoordinates.containsKey(getLeftCoordinate().toString())) {
                 newCell = cellsByCoordinates.get(getLeftCoordinate().toString());
-                newCell.timesVisited +=1;
+                newCell.timesVisited += 1;
             } else {
                 newCell.coordinate = getLeftCoordinate();
             }
@@ -359,7 +359,6 @@ public class PathState implements State {
             }
         }
         newPathState.cellsByCoordinates.put(newCell.coordinate.toString(), newCell);
-//        System.out.println(action + " " + newCell.coordinate + " " + direction);
         newPathState.actualCell = newCell;
         newPathState.direction = direction;
         return newPathState;
