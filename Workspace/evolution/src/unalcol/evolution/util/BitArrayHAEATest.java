@@ -18,7 +18,6 @@ import unalcol.math.logic.Predicate;
 import unalcol.optimization.iterative.IterativePopulationOptimizer;
 import unalcol.optimization.OptimizationFunction;
 import unalcol.optimization.PopulationOptimizer;
-import unalcol.types.collection.bitarray.BitArrayInstance;
 import unalcol.optimization.operators.ArityOne;
 import unalcol.optimization.operators.ArityTwo;
 import unalcol.optimization.operators.Operator;
@@ -64,6 +63,7 @@ public class BitArrayHAEATest {
 
         // Function being optimized
         OptimizationFunction function =  new BoundedlyDeceptive();
+        
         // Evaluating the fitness of the initial population
         Solution.evaluate((Vector)pop, function);
 

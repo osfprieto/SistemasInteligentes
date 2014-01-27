@@ -55,7 +55,7 @@ public class RealVectorHAEATest {
         provider.setDefault_service(WriteService.class,double[].class,key);
 
         // Search Space 
-        int DIMENSION = 10;
+        int DIMENSION = 30;
         double[] min = DoubleArrayInit.create(DIMENSION, -5.12);
         double[] max = DoubleArrayInit.create(DIMENSION, 5.12);
         InstanceService ikey = new DoubleArrayInstance(min, max);
@@ -79,7 +79,14 @@ public class RealVectorHAEATest {
         Vector<Solution<double[]>> pop = InstanceProvider.get(solution, POPSIZE);
 
         // Function being optimized
-        OptimizationFunction function = new Rastrigin(); 
+        ////////////////////////////////////////////////////////////////
+        //          ACA CAMBIAMOS LA FUNCIÓN!
+        ////////////////////////////////////////////////////////////////
+        //La función implementada en F4 cumple la función F4 del paper que está
+        //en la documentación, el link está en la definción de la clase
+        //Para este caso es importante dejar la dimensión en 30 ya que así está
+        //definida la función, no como en Rastrigin y Schwefel que son de orden N
+        OptimizationFunction function = new UN_Equipo.F4(); 
         
         // Evaluating the fitness of the initial population
         Solution.evaluate((Vector)pop, function);

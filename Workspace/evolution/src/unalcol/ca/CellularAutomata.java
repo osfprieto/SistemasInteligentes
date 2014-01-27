@@ -1,5 +1,7 @@
 package unalcol.ca;
 
+import javax.swing.JOptionPane;
+
 /**
  * <p>Title: CellularAutomata</p>
  * <p>Description: The Conway's Game of Life Cellular Automata.</p>
@@ -55,7 +57,7 @@ public class CellularAutomata {
      * @return The neighborhood of a given cell
      */
     public int[][] neighborhood( int id ){
-        return neighboor(id/state[0].length, id%state[0].length);
+        return neighbor(id/state[0].length, id%state[0].length);
     }
 
     /**
@@ -64,24 +66,26 @@ public class CellularAutomata {
      * @param j Cell's column
      * @return The neighborhood of a given cell
      */
-    public int[][] neighboor( int i, int j ){
+    public int[][] neighbor( int i, int j ){
         int n = state.length;
         int m = state[0].length;
-        int[][] neigboors = new int[10][2];
+        //System.out.println("i: "+i+". j: "+j);
+        int[][] neighbors = new int[10][2];
         int c = 0;
         for( int k=-1; k<2; k++ ){
             int row = (i+k+n)%n;
             for( int l=-1; l<2; l++ ){
                 int column = (j+l+m)%m;
+                //System.out.println("Row: "+row+". Column: "+column);
                 if( state[row][column] ){
-                    neigboors[c][0] = row;
-                    neigboors[c][1] = column;
+                    neighbors[c][0] = row;
+                    neighbors[c][1] = column;
                     c++;
                 }
             }
         }
-        neigboors[c][0] = -1;
-        return neigboors;
+        neighbors[c][0] = -1;
+        return neighbors;
     }
 
     /**
@@ -92,7 +96,7 @@ public class CellularAutomata {
      */
     public boolean next( int i, int j ){
         int c = 0;
-        int[][] n = neighboor(i, j);
+        int[][] n = neighbor(i, j);
         while( n[c][0] >= 0 ){
             c++;
         }
@@ -172,6 +176,7 @@ public class CellularAutomata {
             a.simulate();
             System.out.print(a.toString());
             System.out.println("********************************");
+            //JOptionPane.showMessageDialog(null, "kmas");
         }
     }
 }
